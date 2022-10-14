@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+    <head>
+      {% if title %}
+      <title>{{ title }}</title>
+      {% else %}
+      <title>BlobMaths</title>
+      {% endif %}
+    </head>
+    <body>
+        {% extends "bootstrap/base.html" %}
+        {% block content %}
+        <div><a href="/">Home</a></div>
+        <hr>
+        {% endblock %}
+    </body>
+</html>
