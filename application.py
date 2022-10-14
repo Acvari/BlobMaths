@@ -5,4 +5,4 @@ app = application
 
 @app.route('/')
 def home():
-	return 'Hi'
+	return 'Hi there'
