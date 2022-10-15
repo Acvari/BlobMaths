@@ -1,1 +1,4 @@
-SECRET_KEY = "verysecretcode007dn"
+import os
+
+class Config:
+    SECRET_KEY = os.environ.get('SECRET_KEY') or "verysecretcode007dn"
