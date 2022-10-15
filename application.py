@@ -7,7 +7,7 @@ application = Flask(__name__)
 app = application
 
 Bootstrap(app)
-app.config.from_pyfile("config.py")
+app.config.from_pyfile("secret.py")
 
 @app.route('/')
 def home():
