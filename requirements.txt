@@ -3,6 +3,7 @@ colorama==0.4.5
 dominate==2.7.0
 Flask==2.2.2
 Flask-Bootstrap==3.3.7.1
+Flask-Login==0.6.2
 Flask-WTF==1.0.1
 importlib-metadata==5.0.0
 itsdangerous==2.1.2
