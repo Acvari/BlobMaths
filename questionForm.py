@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import RadioField, StringField
+from wtforms import RadioField, FieldList
 from wtforms.validators import DataRequired
 
 class answerForm(FlaskForm):
