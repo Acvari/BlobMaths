@@ -1,5 +1,5 @@
 from flask import Flask, render_template, flash, redirect
-from config import Config
+from secret import Config
 from forms import LoginForm
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, current_user, login_user
@@ -12,15 +12,12 @@ app = application
 login = LoginManager(app)
 Bootstrap(app)
 login.init_app(app)
-app.config.from_object(Config) # solve this
-app.config.from_pyfile("secret.py") # solve this
+app.config.from_object(Config)
 user = User()
 
 @login.user_loader
 def load_user(id):
 	return user
-
-
 
 @app.route('/')
 def home():
@@ -50,4 +47,3 @@ def login():
 		login_user(user)
 		return redirect('/game')
 	return render_template('login.html', title='Login', form=form)
-
