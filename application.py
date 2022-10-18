@@ -1,6 +1,7 @@
 from flask import Flask, render_template, flash, redirect
 from secret import Config
 from forms import LoginForm
+from forms import ProfileForm
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, current_user, login_user
 from user_placeholder import User
@@ -21,11 +22,13 @@ def load_user(id):
 
 @app.route('/')
 def home():
-	return 'Hi there'
+	return redirect('/login')
 
 @app.route('/game', methods=['GET', 'POST'])
 def game():
+	print(current_user.nickname)
 	answerform = answerForm()
+	flash(f"Hello " + user.nickname)
 	if answerform.validate_on_submit():
 		if answerform.answer.data==answerform.answers:
 			flash("Correct!")
@@ -47,3 +50,18 @@ def login():
 		login_user(user)
 		return redirect('/game')
 	return render_template('login.html', title='Login', form=form)
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+	print(user.nickname)
+	print(user.photo)
+	form = ProfileForm()
+	if form.validate_on_submit():
+		user.nickname = form.nickname.data
+		user.photo = form.photo.data
+		if form.nickname.data == '':
+			flash('Please choose a nickname!')
+			return redirect('/profile')
+		else: 
+			return redirect('/game')
+	return render_template('profile.html', title = 'Profile', form=form)
