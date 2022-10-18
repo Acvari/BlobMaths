@@ -10,7 +10,11 @@
     <body>
         {% extends "bootstrap/base.html" %}
         {% block content %}
-        <div><a href="/">Home</a></div>
+        <table>
+            <th><a href="/"><h1>Home </h1></a></th>
+            <th><h1>|</h1></th>
+            <th><a href="/profile"><h1>Profile </h1></a></th>
+        </table>
         <hr>
         {% with messages = get_flashed_messages() %}
         {% if messages %}

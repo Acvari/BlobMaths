@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+    <head>
+      {% if title %}
+      <title>{{ title }}</title>
+      {% else %}
+      <title>BlobMaths - Profile</title>
+      {% endif %}
+    </head>
+    <body>
+        {% extends "bootstrap/base.html" %}
+        {% block content %}
+        <table>
+            <th><img src="artwork/1.jpg" width="50" height="50"></th>
+            <th><h1>|</h1></th>
+            <th><a href="/"><h1>Home </h1></a></th>
+            <th><h1>|</h1></th>
+            <th><a href="/game"><h1>Game </h1></a></th>
+        </table>
+        <h1> Change your profile</h1>
+        <form action="" method="post" novalidate>
+            <!-- Prevents CSRF attack - See SECRET_KEY in config.py -->
+            {{form.hidden_tag()}}
+            <p>
+                {{ form.nickname.label }}<br>
+                {{ form.nickname(size=32) }}
+            </p>
+            <p>
+                {{ form.photo(size=4) }}
+            </p>
+            <p>{{ form.submitNickname() }}</p>
+        </form>
+        
+        {% endblock %}
+        </body>
+</html>
