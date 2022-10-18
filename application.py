@@ -44,7 +44,11 @@ def login():
 		return redirect('/game')
 	form = LoginForm()
 	if form.validate_on_submit():
-		if (form.username.data != 'Batting Chestum') and (form.password.data != 'bigload420'):
+		# Admin login
+		if (form.username.data == 'admin') and (form.password.data == 'admin420'):
+			login_user(user)
+			return redirect('/admin')
+		elif (form.username.data != 'Batting Chestum') and (form.password.data != 'bigload420'):
 			flash(f'Incorrect login requested for user {form.username.data}.')
 			return redirect('/login')
 		login_user(user)
@@ -65,3 +69,10 @@ def profile():
 		else: 
 			return redirect('/game')
 	return render_template('profile.html', title = 'Profile', form=form)
+
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+	return render_template('admin.html')
+
+if __name__ == "__main__":
+	app.run()
