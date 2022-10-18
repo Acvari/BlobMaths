@@ -48,7 +48,7 @@ def login():
 		return redirect('/game')
 	form = LoginForm()
 	if form.validate_on_submit():
-		if (form.username.data != 'a') and (form.password.data != 'a'):
+		if (form.username.data != 'Batting Chestum') and (form.password.data != 'bigload420'):
 			flash(f'Incorrect login requested for user {form.username.data}.')
 			return redirect('/login')
 		login_user(user)
