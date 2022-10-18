@@ -2,6 +2,8 @@ from flask import Flask, render_template, flash, redirect
 from secret import Config
 from forms import LoginForm
 from forms import ProfileForm
+from forms import TeacherForm
+from forms import StudentForm
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, current_user, login_user
 from user_placeholder import User
@@ -45,7 +47,7 @@ def login():
 	form = LoginForm()
 	if form.validate_on_submit():
 		# Admin login
-		if (form.username.data == 'admin') and (form.password.data == 'admin420'):
+		if (form.username.data == 'admin') and (form.password.data == 'admin'):
 			login_user(user)
 			return redirect('/admin')
 		elif (form.username.data != 'Batting Chestum') and (form.password.data != 'bigload420'):
@@ -66,13 +68,22 @@ def profile():
 		if form.nickname.data == '':
 			flash('Please choose a nickname!')
 			return redirect('/profile')
-		else: 
+		else:
 			return redirect('/game')
 	return render_template('profile.html', title = 'Profile', form=form)
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
-	return render_template('admin.html')
+	teacher_form = TeacherForm()
+	student_form = StudentForm()
+
+	if teacher_form.submit1.data and teacher_form.validate():
+		return 'Teacher form'
+	if student_form.submit2.data and student_form.validate():
+		return 'Student form'
+
+	return render_template('admin.html', title='Account creation', teacherForm=teacher_form, studentForm=student_form)
+
 
 if __name__ == "__main__":
 	app.run()
