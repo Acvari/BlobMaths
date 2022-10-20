@@ -10,7 +10,6 @@ from user_placeholder import User
 from questionForm import answerForm
 import boto3
 from boto3.session import Session
-import awscli
 
 # initialise application
 application = Flask(__name__)
