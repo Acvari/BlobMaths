@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}} - BlobMaths</title>
+</head>
+<body>
+{% extends "bootstrap/base.html" %}
+{% block content %}
+<h1> Create a BlobMaths account </h1>
+<p>Teacher account form</p>
+
+<form action="" method="post" novalidate>
+    {{teacherForm.hidden_tag()}}
+    <p>
+        {{ teacherForm.username.label }}<br>
+        {{ teacherForm.username(size=32) }}
+    </p>
+    <p>
+        {{ teacherForm.password.label }}<br>
+        {{ teacherForm.password(size=32) }}
+    </p>
+    <p>{{ teacherForm.submit1() }}</p>
+</form>
+
+<br>
+<br>
+<br>
+<br>
+
+<p>Student account form</p>
+
+<form action="" method="post" novalidate>
+    {{studentForm.hidden_tag()}}
+    <p>
+        {{ studentForm.username.label }}<br>
+        {{ studentForm.username(size=32) }}
+    </p>
+    <p>
+        {{ studentForm.password.label }}<br>
+        {{ studentForm.password(size=32) }}
+    </p>
+    <p>{{ studentForm.submit2() }}</p>
+</form>
+
+{% endblock %}
+</body>
+</html>

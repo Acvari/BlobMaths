@@ -13,3 +13,13 @@ class ProfileForm(FlaskForm):
     photo = SelectField('Photo', choices=[('1', 'Monke'), ('2', 'Ber'), ('3', 'Cat'), ('4', 'Fox')])
     submitNickname = SubmitField('Save changes')
     submitPhoto = SubmitField('Save changes')
+
+class TeacherForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit1 = SubmitField('Log In')
+
+class StudentForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit2 = SubmitField('Log In')
