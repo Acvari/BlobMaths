@@ -50,36 +50,27 @@ def game():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    print(current_user)
     if current_user.is_authenticated:
         return redirect('/game')
     form = LoginForm()
     if form.validate_on_submit():
         # Grabs the whole table of user from the database
         users = database.Table("User")
-        record = users.get_item(Key={"ID": 0})
-        # In record there is {'Item': {'AccountID': 'Student', ...}} where 'Item' contains all data
-        print(record)
-        # So go into 'Item'
-        print(record['Item'])
-        # And pull specific record data
-        print(record['Item']['Username'])
-
-        # Admin login
-        if (form.username.data == record['Item']['Username']) and (form.password.data == record['Item']['Password']):
-            login_user(user)
-            return redirect('/admin')
-        elif (form.username.data != 'Batting Chestum') and (form.password.data != 'bigload420'):
-            flash(f'Incorrect login requested for user {form.username.data}.')
-            return redirect('/login')
-        login_user(user)
-        return redirect('/game')
+        for i in range(users.item_count):
+            record = users.get_item(Key={"ID": i})
+            # Admin login
+            if (form.username.data == record['Item']['Username']) and (form.password.data == record['Item']['Password']) and record['Item']['AccountID']=="Admin":
+                login_user(user)
+                return redirect('/admin')
+            elif (form.username.data == record['Item']['Username']) and (form.password.data == record['Item']['Password']) and record['Item']['AccountID']=="Student":
+                login_user(user)
+                return redirect('/moduleSelection')
+            else:
+                flash(f'Incorrect login requested for user {form.username.data}.')
     return render_template('login.html', title='Login', form=form)
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
-    print(user.nickname)
-    print(user.photo)
     form = ProfileForm()
     if form.validate_on_submit():
         user.nickname = form.nickname.data
