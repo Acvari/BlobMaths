@@ -32,11 +32,9 @@ database = dynamodb_session.resource("dynamodb", region_name="eu-west-2")
 def load_user(id):
     return user
 
-
 @app.route('/')
 def home():
     return redirect('/login')
-
 
 @app.route('/game', methods=['GET', 'POST'])
 def game():
@@ -50,7 +48,6 @@ def game():
             flash("Not Quite!")
 
     return render_template('game.html', title='Game', form=answerform)
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -79,7 +76,6 @@ def login():
         login_user(user)
         return redirect('/game')
     return render_template('login.html', title='Login', form=form)
-
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
@@ -110,5 +106,10 @@ def admin():
     return render_template('admin.html', title='Account creation', teacherForm=teacher_form, studentForm=student_form)
 
 
+@app.route('/moduleSelection', methods=['GET', 'POST'])
+def module_selection():
+	return render_template('moduleSelection.html', title='Module Selection')
+
+
 if __name__ == "__main__":
-    app.run()
+	app.run()
