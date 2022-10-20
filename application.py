@@ -20,13 +20,12 @@ login.init_app(app)
 app.config.from_object(Config)
 user = User()
 
-# username: AKIAXOML5L575E3RVL3R
-# password: qKa8Dzo6Mjee+vsejFMfi4+A3L3qa2CQB+a3Ggm0
-# dynamodb_session = Session(aws_access_key_id='AKIAXOML5L575E3RVL3R',
-#                            aws_secret_access_key='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',
-#                            region_name='eu-west-2')
-# database = dynamodb_session.resource("dynamodb", region_name="eu-west-2")
-database = boto3.resource("dynamodb",region_name="eu-west-2")
+username: AKIAXOML5L575E3RVL3R
+password: qKa8Dzo6Mjee+vsejFMfi4+A3L3qa2CQB+a3Ggm0
+dynamodb_session = Session(aws_access_key_id='AKIAXOML5L575E3RVL3R',
+                           aws_secret_access_key='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',
+                           region_name='eu-west-2')
+database = dynamodb_session.resource("dynamodb", region_name="eu-west-2")
 
 @login.user_loader
 def load_user(id):
