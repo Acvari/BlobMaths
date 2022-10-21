@@ -65,8 +65,6 @@ def login():
             elif (form.username.data == record['Item']['Username']) and (form.password.data == record['Item']['Password']) and record['Item']['AccountID']=="Student":
                 login_user(user)
                 return redirect('/moduleSelection')
-            else:
-                flash(f'Incorrect login requested for user {form.username.data}.')
     return render_template('login.html', title='Login', form=form)
 
 @app.route('/profile', methods=['GET', 'POST'])
