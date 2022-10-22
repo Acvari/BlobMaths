@@ -1,9 +1,10 @@
-from flask import Flask, render_template, flash, redirect
+from awscli.errorhandler import ClientError
+from awscli.paramfile import logger
+from flask import Flask, render_template, flash, redirect, request, jsonify
 from secret import Config
 from forms import LoginForm
 from forms import ProfileForm
-from forms import TeacherForm
-from forms import StudentForm
+from forms import UserForm
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, current_user, login_user
 from user_placeholder import User
@@ -11,9 +12,11 @@ from questionForm import answerForm
 import boto3
 from boto3.session import Session
 import awscli
+import json
 
 # initialise application
-application = Flask(__name__)
+# make static folder available on the root of the url '', get rid of the static/ part of static/new-admin.js
+application = Flask(__name__, static_folder='static', static_url_path='', template_folder='templates')
 app = application
 login = LoginManager(app)
 Bootstrap(app)
@@ -28,6 +31,7 @@ dynamodb_session = Session(aws_access_key_id='AKIAXOML5L575E3RVL3R',
                            region_name='eu-west-2')
 database = dynamodb_session.resource("dynamodb", region_name="eu-west-2")
 
+
 @login.user_loader
 def load_user(id):
     return user
@@ -35,7 +39,7 @@ def load_user(id):
 
 @app.route('/')
 def home():
-    return redirect('/login')
+    return redirect('/admin')
 
 
 @app.route('/game', methods=['GET', 'POST'])
@@ -99,15 +103,39 @@ def profile():
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
-    teacher_form = TeacherForm()
-    student_form = StudentForm()
+    user_form = UserForm()
 
-    if teacher_form.submit1.data and teacher_form.validate():
-        return 'Teacher form'
-    if student_form.submit2.data and student_form.validate():
-        return 'Student form'
+    return render_template('new-admin.html', title='Account creation')
 
-    return render_template('admin.html', title='Account creation', teacherForm=teacher_form, studentForm=student_form)
+
+@app.route('/create_account', methods=['GET', 'POST'])
+def create_account():
+    # View payload, print request.form or look at html element name
+    account_id = request.form['ID']
+    dob = request.form['DOB']
+    firstname = request.form['FirstName']
+    lastname = request.form['LastName']
+    # Needs to be a list of strings. [{"S": "Mathematics"}, {"S":  "Science"}, {"S": "English"}]
+    modules = request.form['Modules']
+    username = request.form['Username']
+    password = request.form['Password']
+
+    user_table = database.Table['User']
+
+    user_table.put_item(
+        TableName='User',
+        Item={
+            'AccountID': account_id,
+            'DOB': dob,
+            'FirstName': firstname,
+            'LastName': lastname,
+            'Modules': modules,
+            'Username': username,
+            'Password': password
+        }
+    )
+
+    return jsonify({'success': 'success'})
 
 
 if __name__ == "__main__":
