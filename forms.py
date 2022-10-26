@@ -14,12 +14,12 @@ class ProfileForm(FlaskForm):
     submitNickname = SubmitField('Save changes')
     submitPhoto = SubmitField('Save changes')
 
-class TeacherForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
+class UserForm(FlaskForm):
+    accountID = StringField('Account ID', validators=[DataRequired()])
+    dateOfBirth = StringField('Date of Birth', validators=[DataRequired()])
+    firstname = StringField('First name', validators=[DataRequired()])
+    lastname = StringField('Last name', validators=[DataRequired()])
+    username = StringField('Account username', validators=[DataRequired()])
+    password = StringField('Account password', validators=[DataRequired()])
     submit1 = SubmitField('Log In')
 
-class StudentForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit2 = SubmitField('Log In')
