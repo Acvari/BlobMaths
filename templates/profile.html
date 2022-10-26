@@ -6,31 +6,139 @@
       {% else %}
       <title>BlobMaths - Profile</title>
       {% endif %}
+      <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+            integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+            crossorigin="anonymous"></script>
     </head>
-    <body>
+    <body style="background-color:darkgray">
         {% extends "bootstrap/base.html" %}
         {% block content %}
-        <table>
-            <th><img src="artwork/1.jpg" width="50" height="50"></th>
-            <th><h1>|</h1></th>
-            <th><a href="/"><h1>Home </h1></a></th>
-            <th><h1>|</h1></th>
-            <th><a href="/game"><h1>Game </h1></a></th>
-        </table>
-        <h1> Change your profile</h1>
-        <form action="" method="post" novalidate>
-            <!-- Prevents CSRF attack - See SECRET_KEY in config.py -->
-            {{form.hidden_tag()}}
-            <p>
-                {{ form.nickname.label }}<br>
-                {{ form.nickname(size=32) }}
-            </p>
-            <p>
-                {{ form.photo(size=4) }}
-            </p>
-            <p>{{ form.submitNickname() }}</p>
-        </form>
-        
+
+        <!--Navigation bar-->
+    <nav class="navbar fixed-top navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="">Menu</a>
+            <div class="container-sm" style="text-align:left">
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"><h1>Menu</h1></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                  <a class="nav-link" href="/"><h3>Logout</h3></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/"><h3>Profile</h3></a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/game"><h3>Game</h3></a>
+                </li>
+                <li class="nav-item dropdown">
+                  <span class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <h3>Module Selection</h3>
+                  </span>
+                  <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/game">Maths</a></li>
+                    <li><a class="dropdown-item" href="/game">Maths 2</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                  </ul>
+                </li>
+                </ul>
+            </div>
+            </div>
+        </div>
+    </nav>
+    <!--Left side of page-->
+        <div class="container-fluid" >
+            <div class="row">
+                <div class="col-3">
+                    <label for="validationTextarea" class="form-label">Placeholder</label>
+                    <input class="form-control" id="validationTextarea" placeholder="Placeholder for other stuff" style="height: 150% ; width: 80%;"></input>
+                </div>
+    <!--Center side of page-->
+                <div class="col-6" style="text-align:left">
+                    <h1 style="text-align:center"> Change your profile</h1>
+                    <form action="" method="post" novalidate>
+                    <!-- Prevents CSRF attack - See SECRET_KEY in config.py -->
+                    {{form.hidden_tag()}}
+                    <p>
+                    {{ form.nickname.label }}<br>
+                    {{ form.nickname(size=32) }}
+                    </p>
+                    <!--Old photo form-->
+                    <!--<p>
+                        {{ form.photo(size=4) }}
+                    </p>-->
+                    <!--Profile pic form-->
+                    <div class="row">
+                        <div class="col form-check">
+                            <input class="form-check-input" type="radio" name="monkePic" id="monkeLabel">
+                            <label class="form-check-label" for="monkeLabel">
+                            Monke
+                            </label>
+                        </div>
+                        <div class="col form-check">
+                            <input class="form-check-input" type="radio" name="berPic" id="berLabel">
+                            <label class="form-check-label" for="berLabel">
+                            Ber
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">   
+                        <div class="col form-check">
+                            <input class="form-check-input" type="radio" name="catPic" id="catLabel">
+                            <label class="form-check-label" for="catLabel">
+                            Cat
+                            </label>
+                        </div>
+                        <div class="col form-check">
+                            <input class="form-check-input" type="radio" name="foxPic" id="foxLabel">
+                            <label class="form-check-label" for="foxLabel">
+                            Fox
+                            </label>
+                        </div>
+                    </div>
+                    <p>
+                        {{ form.submitNickname() }}
+                    </p>
+                    </form>
+                </div>
+    <!--Right side of page-->
+                <div class="col-3" style="text-align:center">
+                        <label for="validationTextarea" class="form-label"><h1>Chat</h1></label>
+                        <input class="form-control" type="text" id="validationTextarea" placeholder="Placeholder for chat box" style="height:100%"></input>
+                    <div class="invalid-feedback">
+                        Please enter a message in the textarea.
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!--Footer-->    
+        <!--
+        <div class="row container-fluid">
+            <div class="jumbotron jumbotron-fluid fixed-bottom">
+                <h3>This is another placeholder just in case we need one</h3>
+            </div>
+        </div>
+        -->
+        <div class="row container-fluid fixed-bottom">
+            <h3 style="text-align:left">@BlobMaths</h3>
+        </div>
         {% endblock %}
-        </body>
+    </body>
 </html>
