@@ -38,7 +38,7 @@ def load_user(id):
 
 @app.route('/')
 def home():
-    return redirect('/admin')
+    return redirect('/login')
 
 @app.route('/game', methods=['GET', 'POST'])
 def game():
