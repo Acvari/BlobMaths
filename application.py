@@ -55,22 +55,34 @@ def game():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:
-        return redirect('/game')
-    form = LoginForm()
-    if form.validate_on_submit():
-        # Grabs the whole table of user from the database
-        users = database.Table("User")
-        for i in range(users.item_count):
-            record = users.get_item(Key={"ID": i})
-            # Admin login
-            if (form.username.data == record['Item']['Username']) and (form.password.data == record['Item']['Password']) and record['Item']['AccountID']=="Admin":
+    return render_template('login.html')
+
+@app.route('/run_login', methods=['GET', 'POST'])
+def run_login():
+    # if current_user.is_authenticated:
+    #     return redirect('/game')
+
+    print(request.form)
+    username = request.form['username']
+    password = request.form['password']
+
+    # Grabs the whole table of user from the database
+    print(username, "WORK", password)
+    users = database.Table("User")
+    for i in range(users.item_count):
+        record = users.get_item(Key={"ID": i})
+        # Admin login
+        if (username == record['Item']['Username']) and (password == record['Item']['Password']):
+            if record['Item']['AccountID']=="Admin":
                 login_user(user)
-                return redirect('/admin')
-            elif (form.username.data == record['Item']['Username']) and (form.password.data == record['Item']['Password']) and record['Item']['AccountID']=="Student":
+                url = "/admin"
+
+            elif record['Item']['AccountID']=="Student":
                 login_user(user)
-                return redirect('/moduleSelection')
-    return render_template('login.html', title='Login', form=form)
+                print("yes2")
+                url = "/moduleSelection"
+            return jsonify({'success': 'success', 'url': url})
+    return jsonify({'success': 'success', 'url': '/login'})
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
@@ -125,8 +137,8 @@ def create_account():
 
 @app.route('/moduleSelection', methods=['GET', 'POST'])
 def module_selection():
-	return render_template('moduleSelection.html', title='Module Selection')
+    return render_template('moduleSelection.html', title='Module Selection')
 
 
 if __name__ == "__main__":
-	app.run()
+    app.run()
