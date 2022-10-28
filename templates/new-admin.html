@@ -21,6 +21,37 @@
 
 </head>
 <body>
+        <!--Navigation bar-->
+    <nav class="navbar fixed-top navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="">Menu</a>
+            <div class="container-sm" style="text-align:left">
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"><h1>Menu</h1></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                  <a class="nav-link" href="/"><h3>Logout</h3></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href=""><h3>Billing</h3></a>
+                </li>
+                <li>
+                    <a class="nav-link" href=""><h3>Dashboard</h3></a>
+                </li>
+                </ul>
+            </div>
+            </div>
+        </div>
+    </nav>
+<br><br><br>
 
 <div class="jumbotron">
     <div class="container">
@@ -31,21 +62,67 @@
 
 
 <form class="form-control" name="accountFormName" id="accountFormID">
-    <label for="accountID">Account ID:</label>
-    <input type="text" class="form-control" id="accountID" name="ID">
-    <label for="DOBID">Date of Birth: 00/00/0000</label>
-    <input type="text" class="form-control" id="DOBID" name="DOB">
-    <label for="FirstNameID">First name:</label>
-    <input type="text" class="form-control" id="FirstNameID" name="FirstName">
-    <label for="LastNameID">Last name:</label>
-    <input type="text" class="form-control" id="LastNameID" name="LastName">
-    <label for="ModulesID">Modules:</label>
-    <input type="text" class="form-control" id="ModulesID" name="Modules">
-    <label for="UsernameID">Username:</label>
-    <input type="text" class="form-control" id="UsernameID" name="Username">
-    <label for="PasswordID">Password:</label>
-    <input type="text" class="form-control" id="PasswordID" name="Password">
-    <button class="btn btn-lg btn-primary btn-block" type="button">Register</button>
+    <div class="form-group row">
+        <label for="accountID" class="col-sm-2">Account ID:</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="accountID" name="ID">
+        </div>
+    </div>
+    <br>
+    <div class="form-group row">
+        <label for="DOBID" class="col-sm-2">Date of Birth: DD/MM/YYYY</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="DOBID" name="DOB">
+        </div>
+    </div>
+    <br>
+    <div class="form-group row">
+        <label for="FirstNameID" class="col-sm-2">First Name:</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="FirstNameID" name="FirstName">
+        </div>
+    </div>
+    <br>
+    <div class="form-group row">
+        <label for="LastNameID" class="col-sm-2">Last Name:</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="LastNameID" name="LastName">
+        </div>
+    </div>
+    <br>
+    <div class="form-group col" id="checkboxes">
+        <label for="checkboxes" class="col-sm-2">Modules:</label>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="Mathematics" value="Mathematics" name="Math">
+            <label class="form-check-label" for="Mathematics">Mathematics</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="Science" value="Science" name="Sci">
+            <label class="form-check-label" for="Science">Science</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="English" value="English" name="Eng">
+            <label class="form-check-label" for="English">English</label>
+        </div>
+    </div>
+    <br>
+    <div class="form-group row">
+        <label for="UsernameID" class="col-sm-2">Username:</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="UsernameID" name="Username">
+        </div>
+    </div>
+    <br>
+    <div class="form-group row">
+        <label for="PasswordID" class="col-sm-2">Password:</label>
+        <div class="col-sm-8">
+            <input type="password" class="form-control" id="PasswordID" name="Password">
+        </div>
+    </div>
+    <br>
+    <div class="col-xs-1" align="center">
+        <button class="btn btn-lg btn-primary btn-block" type="button" id="Submit">Register</button>
+    </div>
 </form>
 
 

@@ -24,13 +24,12 @@ login.init_app(app)
 app.config.from_object(Config)
 user = User()
 
-# username: AKIAXOML5L575E3RVL3R
-# password: qKa8Dzo6Mjee+vsejFMfi4+A3L3qa2CQB+a3Ggm0
 dynamodb_session = Session(aws_access_key_id='AKIAXOML5L575E3RVL3R',
                            aws_secret_access_key='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',
                            region_name='eu-west-2')
 database = dynamodb_session.resource("dynamodb", region_name="eu-west-2")
-
+increment = database.Table('User').item_count
+print(increment)
 
 @login.user_loader
 def load_user(id):
@@ -61,7 +60,7 @@ def login():
     if form.validate_on_submit():
         # Grabs the whole table of user from the database
         users = database.Table("User")
-        for i in range(users.item_count):
+        for i in range(increment):
             record = users.get_item(Key={"ID": i})
             # Admin login
             if (form.username.data == record['Item']['Username']) and (form.password.data == record['Item']['Password']) and record['Item']['AccountID']=="Admin":
@@ -95,21 +94,40 @@ def admin():
 
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
+    global increment
     # View payload, print request.form or look at html element name
+    print(request.form)
     account_id = request.form['ID']
     dob = request.form['DOB']
     firstname = request.form['FirstName']
     lastname = request.form['LastName']
-    # Needs to be a list of strings. [{"S": "Mathematics"}, {"S":  "Science"}, {"S": "English"}]
-    modules = request.form['Modules']
+    #don't make account if blank categories
+    if (not account_id or not dob or not firstname or not lastname):
+        return render_template('new-admin.html', title='Account creation')
+    # Welcome to the ugliest code ive ever written
+    modules = []
+    try:
+        modules.append(request.form['Math'])
+    except:
+        pass
+    try:
+        modules.append(request.form['Sci'])
+    except:
+        pass
+    try:
+        modules.append(request.form['Eng'])
+    except:
+        pass
+
     username = request.form['Username']
     password = request.form['Password']
 
-    user_table = database.Table['User']
+    user_table = database.Table('User')
 
     user_table.put_item(
         TableName='User',
         Item={
+            'ID' : increment,
             'AccountID': account_id,
             'DOB': dob,
             'FirstName': firstname,
@@ -119,6 +137,7 @@ def create_account():
             'Password': password
         }
     )
+    increment+=1
 
     return jsonify({'success': 'success'})
 
