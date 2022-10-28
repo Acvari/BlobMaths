@@ -75,18 +75,17 @@ def login():
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     form = ProfileForm()
-    print(user.nickname)
-    print(user.photo)
-    if request.method == 'POST':
-        user.nickname = request.form['nickname']
+    if form.validate_on_submit():
+        user.nickname = form.nickname.data
         user.photo = form.photo.data
-        return redirect('/profile')
-    return render_template('profile.html', 
-                            title="Profile", 
-                            form=form,
-                            )
+        if form.nickname.data == '':
+            flash('Please choose a nickname!')
+            return redirect('/profile')
+        else:
+            return redirect('/game')
+    return render_template('profile.html', title='Profile', form=form)
 
-# Shows new-admin page as the admin link
+
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     user_form = UserForm()

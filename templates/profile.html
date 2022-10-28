@@ -24,6 +24,7 @@
         <!--Navigation bar-->
     <nav class="navbar fixed-top navbar-dark bg-dark">
         <div class="container-fluid">
+            <img src="/1.png" style="height:50px; width:50px">
             <a class="navbar-brand" href="">Menu</a>
             <div class="container-sm" style="text-align:left">
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
@@ -68,7 +69,7 @@
             <div class="row">
                 <div class="col-3">
                     <label for="validationTextarea" class="form-label">Placeholder</label>
-                    <input class="form-control" id="validationTextarea" placeholder="Placeholder for other stuff" style="height: 150% ; width: 80%;"></input>
+                    <input class="form-control" id="validationTextarea" placeholder="Placeholder for other stuff" style="height: 100% ; width: 80%;"></input>
                 </div>
     <!--Center side of page-->
                 <div class="col-6" style="text-align:left">
@@ -76,45 +77,37 @@
                     <form action="" method="post" novalidate>
                     <!-- Prevents CSRF attack - See SECRET_KEY in config.py -->
                     {{form.hidden_tag()}}
-                    <p>
-                    {{ form.nickname.label }}<br>
-                    {{ form.nickname(size=32) }}
-                    </p>
+                    <!--Nickname form-->
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="nickname" placeholder="Nickname" style="width:50%">
+                    </div>
                     <!--Old photo form-->
-                    <!--<p>
-                        {{ form.photo(size=4) }}
-                    </p>-->
-                    <!--Profile pic form-->
-                    <div class="row">
-                        <div class="col form-check">
-                            <input class="form-check-input" type="radio" name="monkePic" id="monkeLabel">
-                            <label class="form-check-label" for="monkeLabel">
-                            Monke
-                            </label>
+                    <!--<div class="row form-group">
+                        <div class="col">
+                            <input class="form-check-input" type="radio" name="photo" id="monkeLabel" checked>
+                            <img class="form-check-label" for="monkeLabel" src={{ form.photo.choices[0][0] }} style="height: 75px; width: 75px;">
                         </div>
-                        <div class="col form-check">
-                            <input class="form-check-input" type="radio" name="berPic" id="berLabel">
-                            <label class="form-check-label" for="berLabel">
-                            Ber
-                            </label>
+                        <div class="col">
+                            <input class="form-check-input" type="radio" name="photo" id="berLabel">
+                            <img class="form-check-label" for="berLabel" src={{ form.photo.choices[1][0] }} style="height: 75px; width: 75px;">
                         </div>
-                    </div>
-                    <div class="row">   
-                        <div class="col form-check">
-                            <input class="form-check-input" type="radio" name="catPic" id="catLabel">
-                            <label class="form-check-label" for="catLabel">
-                            Cat
-                            </label>
+                        <div class="col">
+                            <input class="form-check-input" type="radio" name="photo" id="catLabel">
+                            <img class="form-check-label" for="catLabel" src={{ form.photo.choices[2][0] }} style="height: 75px; width: 75px;">
                         </div>
-                        <div class="col form-check">
-                            <input class="form-check-input" type="radio" name="foxPic" id="foxLabel">
-                            <label class="form-check-label" for="foxLabel">
-                            Fox
-                            </label>
+                        <div class="col">
+                            <input class="form-check-input" type="radio" name="photo" id="foxLabel">
+                            <img class="form-check-label" for="foxLabel" src={{ form.photo.choices[3][0] }} style="height: 75px; width: 75px;">
                         </div>
-                    </div>
+                    </div>-->
+
+                    {% for subfield in form.photo %}
+                    {{ subfield }}
+                        <img src={{ subfield.data }} style="height:75px; width:75px">
+                    {% endfor %}
+
                     <p>
-                        {{ form.submitNickname() }}
+                        {{ form.submit() }}
                     </p>
                     </form>
                 </div>
