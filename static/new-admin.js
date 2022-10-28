@@ -2,7 +2,7 @@
 
 
 $(function () {
-    $('button').click(function () {
+    $('#Submit').click(function () {
         console.log($('#accountFormID').serialize())
         $.ajax({
         //    "{{ url_for('create_account') }}"
@@ -10,13 +10,21 @@ $(function () {
             type: 'POST',
             // Takes data from form of id accountFormID
             data: $('#accountFormID').serialize(),
-            success: (response) => {console.log(response)},
+            success: (response) => $('#accountFormID').resetForm(),
             error: (error) => {console.log(error)}
         });
     });
 });
 
+jQuery.fn.resetForm = function() {
+    var $form = $(this);
 
+    $form.find('input:text, input:password, input:file, textarea').val('');
+    $form.find('select option:selected').removeAttr('selected');
+    $form.find('input:checkbox, input:radio').removeAttr('checked');
+
+    return this;
+};
 
 //    let account_id = document.getElementById("ID").value;
 //    let dob = document.getElementById("DOB").value;

@@ -29,6 +29,7 @@ dynamodb_session = Session(aws_access_key_id='AKIAXOML5L575E3RVL3R',
                            region_name='eu-west-2')
 database = dynamodb_session.resource("dynamodb", region_name="eu-west-2")
 increment = database.Table('User').item_count
+print(increment)
 
 @login.user_loader
 def load_user(id):
@@ -100,8 +101,9 @@ def create_account():
     dob = request.form['DOB']
     firstname = request.form['FirstName']
     lastname = request.form['LastName']
-    # Needs to be a list of strings. [{"S": "Mathematics"}, {"S":  "Science"}, {"S": "English"}]
-
+    #don't make account if blank categories
+    if (not account_id or not dob or not firstname or not lastname):
+        return render_template('new-admin.html', title='Account creation')
     # Welcome to the ugliest code ive ever written
     modules = []
     try:
