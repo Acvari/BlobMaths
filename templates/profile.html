@@ -75,29 +75,29 @@
                     <input class="form-control" id="validationTextarea" placeholder="Placeholder for other stuff" style="height: 100% ; width: 80%;"></input>
                 </div>
     <!--Center side of page-->
-                <div class="col-6" style="text-align:left">
-                    <h1 style="text-align:center"> Change your profile</h1>
-                    <form class="form-control no-border shadow-none" style="background-color:darkgray; height:fit-content" name="profileFormName" id="profileFormID" method="post" novalidate>
-                    <!-- Prevents CSRF attack - See SECRET_KEY in config.py -->
+                <div class="col-6 no-border shadow-none" style="text-align:left">
+                    <h1 style="text-align:left"><strong> Change your profile</strong></h1>
+                    <form class="form-control" style="background-color: transparent; height:fit-content" name="profileFormName" id="profileFormID" method="post" novalidate>
+                <!-- Prevents CSRF attack - See SECRET_KEY in config.py -->
                     {{form.hidden_tag()}}
-                    <!--Nickname form-->
-                    <h3>Change your nickname!</h3>
-                    <input class="form-control no-border" type="text" name="nickname"  placeholder="Nickname" style="width:50%">
+                <!--Nickname form-->
+                    <h3><strong>Change your nickname!</strong></h3>
+                    <input class="form-control no-border" type="text" name="nickname"  placeholder="Nickname" style="width:30%">
                 <!--Old photo form-->
-                    <h3>Choose your icon!</h3>
-                    <!--<div class="form-check form-check-inline">-->
-                    <div class="form-group" name="photo" id="photoID">
-                        <input class="form-check-input" type="radio" name="Monke" for="monkeLabel" >
-                        <img class="form-check-label" id="monkeLabel" src="/Monkey.png" style="height: 75px; width: 75px;">
-                        <input class="form-check-input" type="radio" name="Ber" for="berLabel" >
-                        <img class="form-check-label" id="berLabel" src="/Bear.png" style="height: 75px; width: 75px;">
-                        <input class="form-check-input" type="radio" name="Cat" for="catLabel">
-                        <img class="form-check-label" id="catLabel" src="/Cat.png" style="height: 75px; width: 75px;">
-                        <input class="form-check-input" type="radio" name="Fox" for="foxLabel">
-                        <img class="form-check-label" id="foxLabel" src="/Fox.png" style="height: 75px; width: 75px;">
-                    </div>
-                
-
+                    <br>
+                    <br>
+                    <h3><strong>Choose your icon!</strong></h3>
+                    <!--<div class="form-group" name="photo" id="photoID">-->
+                    <input class="form-check-input" type="radio" name="Monkey" value="monkey" for="monkeyLabel" >
+                    <img class="form-check-label" id="monkeyLabel" src="/Monkey.png" style="height: 75px; width: 75px;">
+                    <input class="form-check-input" type="radio" name="Bear" value="bear" for="bearLabel" >
+                    <img class="form-check-label" id="bearLabel" src="/Bear.png" style="height: 75px; width: 75px;">
+                    <input class="form-check-input" type="radio" name="Cat" value="cat" for="catLabel">
+                    <img class="form-check-label" id="catLabel" src="/Cat.png" style="height: 75px; width: 75px;">
+                    <input class="form-check-input" type="radio" name="Fox" value="fox" for="foxLabel">
+                    <img class="form-check-label" id="foxLabel" src="/Fox.png" style="height: 75px; width: 75px;">
+                    <br>
+                    <br>
                 <!--Flask form
                     <h3>Choose your icon!</h3>
                     {% for subfield in form.photo %}
@@ -106,6 +106,13 @@
                     {% endfor %}
                 -->
                     <button style="width:fit-content" class="btn btn-lg btn-primary btn-block" type="submit">Confirm changes</button>
+
+                    <br>
+                    <br>
+
+                    <!-- Adam's type of image buttons-->
+                    <!--<input type="image" src="/Monkey.png" style="height: 75px; width: 75px;">--> 
+                    
                     <!--<p>
                         {{ form.submit() }}
                     </p>-->

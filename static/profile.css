@@ -1,3 +1,9 @@
+body {
+  background-image: url('/Background.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+}
+
 .form-control {
     border: 0;
 }

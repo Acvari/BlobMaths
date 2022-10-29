@@ -1,3 +1,4 @@
+from unittest import case
 from awscli.errorhandler import ClientError
 from awscli.paramfile import logger
 from flask import Flask, render_template, flash, redirect, request, jsonify
@@ -77,9 +78,8 @@ def profile():
     form = ProfileForm()
     if request.method == 'POST':
         user.nickname = request.form['nickname']
-        #user.photo = request.form['photo']
         print(user.nickname)
-        print(user.photo)
+
     return render_template('profile.html', 
                             title="Profile", 
                             form=form,
