@@ -14,6 +14,7 @@ $(function () {
 });
 
 function change_url(response) {
-    document.write('<div>Cum</div>');
+    document.write('<p>Cum</p>');
+    console.log(response.url)
     window.location.assign(response.url);
 }
