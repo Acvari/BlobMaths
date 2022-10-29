@@ -56,7 +56,7 @@ def game():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect('/game')
+        return redirect('/profile')
     form = LoginForm()
     if form.validate_on_submit():
         # Grabs the whole table of user from the database
@@ -69,24 +69,24 @@ def login():
                 return redirect('/admin')
             elif (form.username.data == record['Item']['Username']) and (form.password.data == record['Item']['Password']) and record['Item']['AccountID']=="Student":
                 login_user(user)
-                return redirect('/moduleSelection')
+                return redirect('/profile')
     return render_template('login.html', title='Login', form=form)
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     form = ProfileForm()
-    print(user.nickname)
-    print(user.photo)
     if request.method == 'POST':
         user.nickname = request.form['nickname']
-        user.photo = form.photo.data
-        return redirect('/profile')
+        #user.photo = request.form['photo']
+        print(user.nickname)
+        print(user.photo)
     return render_template('profile.html', 
                             title="Profile", 
                             form=form,
                             )
 
-# Shows new-admin page as the admin link
+
+
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     user_form = UserForm()

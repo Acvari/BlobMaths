@@ -10,7 +10,7 @@ class LoginForm(FlaskForm):
 
 class ProfileForm(FlaskForm):
     nickname = StringField('Nickname', validators=[DataRequired()])
-    photo = RadioField('Photo', choices=[('/1.png', 'Monke'), ('/2.png', 'Ber'), ('/3.png', 'Cat'), ('/4.png', 'Fox')], default='/1.png')
+    photo = RadioField('Photo', choices=[('/Monkey.png', 'Monke'), ('/Bear.png', 'Ber'), ('/Cat.png', 'Cat'), ('/Fox.png', 'Fox')], default='/1.png')
     submit = SubmitField('Save changes')
 
 class UserForm(FlaskForm):
