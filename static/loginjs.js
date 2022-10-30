@@ -14,7 +14,7 @@ $(function () {
 });
 
 function change_url(response) {
-    document.write('<p>Cum</p>');
+    document.write('<p>Batchest</p>');
     console.log(response.url)
     window.location.assign(response.url);
 }

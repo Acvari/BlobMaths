@@ -59,15 +59,11 @@ def login():
 
 @app.route('/run_login', methods=['GET', 'POST'])
 def run_login():
-    # if current_user.is_authenticated:
-    #     return redirect('/game')
 
-    print(request.form)
     username = request.form['username']
     password = request.form['password']
 
     # Grabs the whole table of user from the database
-    print(username, "WORK", password)
     users = database.Table("User")
     for i in range(users.item_count):
         record = users.get_item(Key={"ID": i})
@@ -79,7 +75,6 @@ def run_login():
 
             elif record['Item']['AccountID']=="Student":
                 login_user(user)
-                print("yes2")
                 url = "/moduleSelection"
             return jsonify({'success': 'success', 'url': url})
     return jsonify({'success': 'success', 'url': '/login'})
