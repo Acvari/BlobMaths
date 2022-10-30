@@ -30,7 +30,8 @@ dynamodb_session = Session(aws_access_key_id='AKIAXOML5L575E3RVL3R',
                            aws_secret_access_key='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',
                            region_name='eu-west-2')
 database = dynamodb_session.resource("dynamodb", region_name="eu-west-2")
-
+increment = database.Table('User').item_count
+print(increment)
 
 @login.user_loader
 def load_user(id):
@@ -82,17 +83,18 @@ def run_login():
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     form = ProfileForm()
-    if form.validate_on_submit():
-        user.nickname = form.nickname.data
+    print(user.nickname)
+    print(user.photo)
+    if request.method == 'POST':
+        user.nickname = request.form['nickname']
         user.photo = form.photo.data
-        if form.nickname.data == '':
-            flash('Please choose a nickname!')
-            return redirect('/profile')
-        else:
-            return redirect('/game')
-    return render_template('profile.html', title='Profile', form=form)
+        return redirect('/profile')
+    return render_template('profile.html',
+                            title="Profile",
+                            form=form,
+                            )
 
-
+# Shows new-admin page as the admin link
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     user_form = UserForm()
@@ -102,21 +104,40 @@ def admin():
 
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
+    global increment
     # View payload, print request.form or look at html element name
+    print(request.form)
     account_id = request.form['ID']
     dob = request.form['DOB']
     firstname = request.form['FirstName']
     lastname = request.form['LastName']
-    # Needs to be a list of strings. [{"S": "Mathematics"}, {"S":  "Science"}, {"S": "English"}]
-    modules = request.form['Modules']
+    #don't make account if blank categories
+    if (not account_id or not dob or not firstname or not lastname):
+        return render_template('new-admin.html', title='Account creation')
+    # Welcome to the ugliest code ive ever written
+    modules = []
+    try:
+        modules.append(request.form['Math'])
+    except:
+        pass
+    try:
+        modules.append(request.form['Sci'])
+    except:
+        pass
+    try:
+        modules.append(request.form['Eng'])
+    except:
+        pass
+
     username = request.form['Username']
     password = request.form['Password']
 
-    user_table = database.Table['User']
+    user_table = database.Table('User')
 
     user_table.put_item(
         TableName='User',
         Item={
+            'ID' : increment,
             'AccountID': account_id,
             'DOB': dob,
             'FirstName': firstname,
@@ -126,6 +147,7 @@ def create_account():
             'Password': password
         }
     )
+    increment+=1
 
     return jsonify({'success': 'success'})
 
