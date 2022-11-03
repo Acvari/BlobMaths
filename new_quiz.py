@@ -44,7 +44,10 @@ def add_quiz():
     if request.method == 'GET':
         return render_template('quiz_creation.html')
 #
-
+_page = {
+    'category_name': None,
+    'NextToken': None,
+}
 @app.route("/quizbycategory", defaults={'category':None}, methods=['POST'])
 @app.route("/quizbycategory/<category>")
 
@@ -53,48 +56,30 @@ def get_quiz_by_category(category):
 #        
         quizzes_table = database.Table('Quizzes')
         response = quizzes_table.scan
-        get_category = quizzes_table.query(KeyConditionExpression=Key('quiz_category').eq(category))
-        query = quizzes_table.querry(KeyConditionExpression=Key('quiz_category'), Limit = 3)
-#
-        query = client.query(
-            q.map_(
-                lambda var: q.get(var),
-                q.paginate(
-                    q.match(
-                        q.index("quiz_by_category"),
-                        get_category['data']['name']
-                    ),
-                    size=3
-                )
+        get_category = quizzes_table.get_query(KeyConditionExpression=Key('quiz_category').eq(category))
+        paginator = quizzes_table.get_paginator(
+            quizzes_table.get_querry(
+                KeyConditionExpression=Key('quiz_category').eq(category), Select='SPECIFIC_ATTRIBUTES', AttributesToGet=[get_category], Limit = 3
             )
         )
-        result = [i['data'] for i in query['data']]
-        _vars['category_name'] = category
-        if 'after' in query.keys():
-            _vars['after'] = query['after'][0]
+        result = [i['Items'] for i in paginator['Items']]
+        _page['category_name'] = category
+        if 'NextToken' in paginator.keys():
+            _page['NextToken'] = paginator['NextToken'][0]
         #print(_vars)
-        print(query)
+#
         return render_template('quizpage.html', result=result)   
-
+#
     elif request.method == 'POST':
 #        
             if 'next' in request.form.keys():
 #
-                result = [i['data'] for i in query['data']]
-                if 'before' in query.keys():
-                    _vars['before'] = query['before'][0]
-                if 'after' in query.keys():
-                    _vars['after'] = query['after'][0]
+                result = [i['data'] for i in paginator['data']]
+                if 'before' in paginator.keys():
+                    _page['before'] = paginator['before'][0]
+                if 'NextToken' in paginator.keys():
+                    _page['NextToken'] = paginator['NextToken'][0]
                 return render_template('new_quiz.html', result=result)
-#                
-            if 'prev' in request.form.keys():
 #
-                result = [i['data'] for i in query['data']]
-                if 'after' in query.keys():
-                    _vars['after'] = query['after'][0]
-                if 'before' in query.keys():
-                    _vars['before'] = query['before'][0]
-                return render_template('new_quiz.html', result=result)
-
 if __name__ == '__main__':
     app.run(debug=True)
