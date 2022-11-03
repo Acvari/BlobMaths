@@ -1,3 +1,4 @@
+from unittest import case
 from awscli.errorhandler import ClientError
 from awscli.paramfile import logger
 from flask import Flask, render_template, flash, redirect, request, jsonify
@@ -83,18 +84,16 @@ def run_login():
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     form = ProfileForm()
-    print(user.nickname)
-    print(user.photo)
     if request.method == 'POST':
         user.nickname = request.form['nickname']
-        user.photo = form.photo.data
-        return redirect('/profile')
+        print(user.nickname)
     return render_template('profile.html',
                             title="Profile",
                             form=form,
                             )
 
-# Shows new-admin page as the admin link
+
+
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     user_form = UserForm()

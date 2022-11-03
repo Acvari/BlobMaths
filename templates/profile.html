@@ -16,16 +16,18 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
             integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
             crossorigin="anonymous"></script>
+        <script src="functions.js"></script>
+        <link rel="stylesheet" href="profile.css">
     </head>
     <body style="background-color:darkgray">
         {% extends "bootstrap/base.html" %}
         {% block content %}
 
-        <!--Navigation bar-->
+    <!--Navigation bar-->
     <nav class="navbar fixed-top navbar-dark bg-dark">
         <div class="container-fluid">
-            <img src="/1.png" style="height:50px; width:50px">
-            <a class="navbar-brand" href="">Menu</a>
+            <img src="/BlobMaths.png" style="height:50px; width:200px">
+            <!--<a class="navbar-brand" href="">Menu</a>-->
             <div class="container-sm" style="text-align:left">
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
                 <span class="navbar-toggler-icon"></span>
@@ -64,51 +66,57 @@
             </div>
         </div>
     </nav>
-    <!--Left side of page-->
+
         <div class="container-fluid" >
             <div class="row">
+    <!--Left side of page-->
                 <div class="col-3">
                     <label for="validationTextarea" class="form-label">Placeholder</label>
                     <input class="form-control" id="validationTextarea" placeholder="Placeholder for other stuff" style="height: 100% ; width: 80%;"></input>
                 </div>
     <!--Center side of page-->
-                <div class="col-6" style="text-align:left">
-                    <h1 style="text-align:center"> Change your profile</h1>
-                    <form action="" method="post" novalidate>
-                    <!-- Prevents CSRF attack - See SECRET_KEY in config.py -->
+                <div class="col-6 no-border shadow-none" style="text-align:left">
+                    <h1 style="text-align:left"><strong> Change your profile</strong></h1>
+                    <form class="form-control" style="background-color: transparent; height:fit-content" name="profileFormName" id="profileFormID" method="post" novalidate>
+                <!-- Prevents CSRF attack - See SECRET_KEY in config.py -->
                     {{form.hidden_tag()}}
-                    <!--Nickname form-->
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="nickname" placeholder="Nickname" style="width:50%">
-                    </div>
-                    <!--Old photo form-->
-                    <!--<div class="row form-group">
-                        <div class="col">
-                            <input class="form-check-input" type="radio" name="photo" id="monkeLabel" checked>
-                            <img class="form-check-label" for="monkeLabel" src={{ form.photo.choices[0][0] }} style="height: 75px; width: 75px;">
-                        </div>
-                        <div class="col">
-                            <input class="form-check-input" type="radio" name="photo" id="berLabel">
-                            <img class="form-check-label" for="berLabel" src={{ form.photo.choices[1][0] }} style="height: 75px; width: 75px;">
-                        </div>
-                        <div class="col">
-                            <input class="form-check-input" type="radio" name="photo" id="catLabel">
-                            <img class="form-check-label" for="catLabel" src={{ form.photo.choices[2][0] }} style="height: 75px; width: 75px;">
-                        </div>
-                        <div class="col">
-                            <input class="form-check-input" type="radio" name="photo" id="foxLabel">
-                            <img class="form-check-label" for="foxLabel" src={{ form.photo.choices[3][0] }} style="height: 75px; width: 75px;">
-                        </div>
-                    </div>-->
-
+                <!--Nickname form-->
+                    <h3><strong>Change your nickname!</strong></h3>
+                    <input class="form-control no-border" type="text" name="nickname"  placeholder="Nickname" style="width:30%">
+                <!--Old photo form-->
+                    <br>
+                    <br>
+                    <h3><strong>Choose your icon!</strong></h3>
+                    <!--<div class="form-group" name="photo" id="photoID">-->
+                    <input class="form-check-input" type="radio" name="Monkey" value="monkey" for="monkeyLabel" >
+                    <img class="form-check-label" id="monkeyLabel" src="/Monkey.png" style="height: 75px; width: 75px;">
+                    <input class="form-check-input" type="radio" name="Bear" value="bear" for="bearLabel" >
+                    <img class="form-check-label" id="bearLabel" src="/Bear.png" style="height: 75px; width: 75px;">
+                    <input class="form-check-input" type="radio" name="Cat" value="cat" for="catLabel">
+                    <img class="form-check-label" id="catLabel" src="/Cat.png" style="height: 75px; width: 75px;">
+                    <input class="form-check-input" type="radio" name="Fox" value="fox" for="foxLabel">
+                    <img class="form-check-label" id="foxLabel" src="/Fox.png" style="height: 75px; width: 75px;">
+                    <br>
+                    <br>
+                <!--Flask form
+                    <h3>Choose your icon!</h3>
                     {% for subfield in form.photo %}
                     {{ subfield }}
                         <img src={{ subfield.data }} style="height:75px; width:75px">
                     {% endfor %}
+                -->
+                    <button style="width:fit-content" class="btn btn-lg btn-primary btn-block" type="submit">Confirm changes</button>
 
-                    <p>
+                    <br>
+                    <br>
+
+                    <!-- Adam's type of image buttons-->
+                    <!--<input type="image" src="/Monkey.png" style="height: 75px; width: 75px;">--> 
+                    
+                    <!--<p>
                         {{ form.submit() }}
-                    </p>
+                    </p>-->
+
                     </form>
                 </div>
     <!--Right side of page-->
@@ -132,6 +140,7 @@
         <div class="row container-fluid fixed-bottom">
             <h3 style="text-align:left">@BlobMaths</h3>
         </div>
+        <div id="changeConfirmation">Changes saved!</div>
         {% endblock %}
     </body>
 </html>
