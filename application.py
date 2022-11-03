@@ -31,7 +31,8 @@ dynamodb_session = Session(aws_access_key_id='AKIAXOML5L575E3RVL3R',
                            aws_secret_access_key='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',
                            region_name='eu-west-2')
 database = dynamodb_session.resource("dynamodb", region_name="eu-west-2")
-
+increment = database.Table('User').item_count
+print(increment)
 
 @login.user_loader
 def load_user(id):
@@ -56,22 +57,29 @@ def game():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:
-        return redirect('/profile')
-    form = LoginForm()
-    if form.validate_on_submit():
-        # Grabs the whole table of user from the database
-        users = database.Table("User")
-        for i in range(users.item_count):
-            record = users.get_item(Key={"ID": i})
-            # Admin login
-            if (form.username.data == record['Item']['Username']) and (form.password.data == record['Item']['Password']) and record['Item']['AccountID']=="Admin":
+    return render_template('login.html')
+
+@app.route('/run_login', methods=['GET', 'POST'])
+def run_login():
+
+    username = request.form['username']
+    password = request.form['password']
+
+    # Grabs the whole table of user from the database
+    users = database.Table("User")
+    for i in range(users.item_count):
+        record = users.get_item(Key={"ID": i})
+        # Admin login
+        if (username == record['Item']['Username']) and (password == record['Item']['Password']):
+            if record['Item']['AccountID']=="Admin":
                 login_user(user)
-                return redirect('/admin')
-            elif (form.username.data == record['Item']['Username']) and (form.password.data == record['Item']['Password']) and record['Item']['AccountID']=="Student":
+                url = "/admin"
+
+            elif record['Item']['AccountID']=="Student":
                 login_user(user)
-                return redirect('/profile')
-    return render_template('login.html', title='Login', form=form)
+                url = "/moduleSelection"
+            return jsonify({'success': 'success', 'url': url})
+    return jsonify({'success': 'success', 'url': '/login'})
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
@@ -79,9 +87,8 @@ def profile():
     if request.method == 'POST':
         user.nickname = request.form['nickname']
         print(user.nickname)
-
-    return render_template('profile.html', 
-                            title="Profile", 
+    return render_template('profile.html',
+                            title="Profile",
                             form=form,
                             )
 
@@ -96,21 +103,40 @@ def admin():
 
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
+    global increment
     # View payload, print request.form or look at html element name
+    print(request.form)
     account_id = request.form['ID']
     dob = request.form['DOB']
     firstname = request.form['FirstName']
     lastname = request.form['LastName']
-    # Needs to be a list of strings. [{"S": "Mathematics"}, {"S":  "Science"}, {"S": "English"}]
-    modules = request.form['Modules']
+    #don't make account if blank categories
+    if (not account_id or not dob or not firstname or not lastname):
+        return render_template('new-admin.html', title='Account creation')
+    # Welcome to the ugliest code ive ever written
+    modules = []
+    try:
+        modules.append(request.form['Math'])
+    except:
+        pass
+    try:
+        modules.append(request.form['Sci'])
+    except:
+        pass
+    try:
+        modules.append(request.form['Eng'])
+    except:
+        pass
+
     username = request.form['Username']
     password = request.form['Password']
 
-    user_table = database.Table['User']
+    user_table = database.Table('User')
 
     user_table.put_item(
         TableName='User',
         Item={
+            'ID' : increment,
             'AccountID': account_id,
             'DOB': dob,
             'FirstName': firstname,
@@ -120,14 +146,15 @@ def create_account():
             'Password': password
         }
     )
+    increment+=1
 
     return jsonify({'success': 'success'})
 
 
 @app.route('/moduleSelection', methods=['GET', 'POST'])
 def module_selection():
-	return render_template('moduleSelection.html', title='Module Selection')
+    return render_template('moduleSelection.html', title='Module Selection')
 
 
 if __name__ == "__main__":
-	app.run()
+    app.run()
