@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add a Quiz</title>
+</head>
+<body>
+        <div class="contribute">
+            <h2>Add a quiz to the database</h2>
+            <form action="{{url_for('add_quiz')}}", method="POST">
+                <span>Pick a category</span>
+                <select name="quiz_category" id="" aria-placeholder="Pick a category">
+                    <option value="">--Please choose an option--</option>
+                    <option value="addition">Addition</option>
+                    <option value="substraction">Substraction</option>
+                    <option value="multiplication">Multiplication</option>
+                    <option value="division">Division</option>
+                </select>
+                <div class="quiz_details">
+                    <h3>Give us the details</h3>
+                    <textarea name="quiz_question" id="" placeholder="Type in the question:"></textarea>
+                    <div class="quiz_options">
+                        <input type="text" name="A" id="" placeholder="Option A">
+                        <input type="text" name="B" id="" placeholder="Option B">
+                        <input type="text" name="C" id="" placeholder="Option C">
+                        <input type="text" name="D" id="" placeholder="Option D">
+                        <br>
+                        <input type="text" name="quiz_answer" id="" placeholder="Tell us the answer:">
+                    </div>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+</body>
+</html>
