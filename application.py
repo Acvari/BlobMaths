@@ -13,6 +13,7 @@ import boto3
 from boto3.session import Session
 import awscli
 import json
+from boto3.dynamodb.conditions import Key
 
 # initialise application
 # make static folder available on the root of the url '', get rid of the static/ part of static/new-admin.js
