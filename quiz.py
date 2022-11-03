@@ -1,5 +1,8 @@
 import os
 from flask import Flask, session, render_template, url_for, redirect, request, flash
+import boto3
+import json
+
 #
 #from copy import deepcopy
 # was going to use deepcopy to not alter the dictionary, will do later
