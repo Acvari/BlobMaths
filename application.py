@@ -14,6 +14,7 @@ import boto3
 from boto3.session import Session
 import awscli
 import json
+from boto3.dynamodb.conditions import Key
 
 # initialise application
 # make static folder available on the root of the url '', get rid of the static/ part of static/new-admin.js
@@ -78,6 +79,9 @@ def run_login():
             elif record['Item']['AccountID']=="Student":
                 login_user(user)
                 url = "/moduleSelection"
+            elif record['Item']['AccountID']=="Teacher":
+                login_user(user)
+                url= "/createquiz"
             return jsonify({'success': 'success', 'url': url})
     return jsonify({'success': 'success', 'url': '/login'})
 
@@ -100,7 +104,6 @@ def admin():
 
     return render_template('new-admin.html', title='Account creation')
 
-
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
     global increment
@@ -116,15 +119,19 @@ def create_account():
     # Welcome to the ugliest code ive ever written
     modules = []
     try:
-        modules.append(request.form['Math'])
+        modules.append(request.form['Add'])
     except:
         pass
     try:
-        modules.append(request.form['Sci'])
+        modules.append(request.form['Sub'])
     except:
         pass
     try:
-        modules.append(request.form['Eng'])
+        modules.append(request.form['Mul'])
+    except:
+        pass
+    try:
+        modules.append(request.form['Div'])
     except:
         pass
 
@@ -154,6 +161,90 @@ def create_account():
 @app.route('/moduleSelection', methods=['GET', 'POST'])
 def module_selection():
     return render_template('moduleSelection.html', title='Module Selection')
+
+
+@app.route('/createquiz', methods=['POST', 'GET'])
+def create_quiz():
+    return render_template('quiz_creation.html')
+
+@app.route('/addquiz', methods=['POST', 'GET'])
+def add_quiz():
+    quiz_category = request.form['quiz_category']
+    quiz_question = request.form['quiz_question']
+    quiz_A = request.form['A']
+    quiz_B = request.form['B']
+    quiz_C = request.form['C']
+    quiz_D = request.form['D']
+    quiz_answer = request.form['quiz_answer']
+
+    try:
+        modules = database.Table('Module')
+        category = modules.get_item(Key={"ModuleID": quiz_category})
+        length = len(category['Item']['Questions'])
+        
+        if length==0:
+            modules.put_item(
+                TableName='Module',
+                Item = {
+                    'ModuleID': quiz_category,
+                    'Questions': [{'quiz_question': quiz_question,'A': quiz_A,'B': quiz_B,'C': quiz_C,'D': quiz_D,'quiz_answer': quiz_answer}]
+                }
+            )
+        else:
+            currentquestions = category['Item']['Questions']
+            currentquestions.append({'quiz_question': quiz_question,'A': quiz_A,'B': quiz_B,'C': quiz_C,'D': quiz_D,'quiz_answer': quiz_answer})
+            modules.put_item(
+                TableName='Module',
+                Item = {
+                    'ModuleID': quiz_category,
+                    'Questions': currentquestions
+                }
+            )
+    except:
+        print("OOPSIE SOMEONES BEEN A NAUGGHHHHHTY BOY")
+
+#
+    return jsonify({'success': 'success'})
+#
+
+# WORK IN PROGRESS
+# _page = {
+#     'category_name': None,
+#     'NextToken': None,
+# }
+# @app.route('/quizbycategory', defaults={'category':None}, methods=['POST'])
+# @app.route('/quizbycategory/<category>')
+# #
+# def get_quiz_by_category(category):
+#     if request.method == 'GET':
+# #        
+#         quizzes_table = database.Table('Quizzes')
+#         response = quizzes_table.scan
+#         get_category = quizzes_table.get_query(KeyConditionExpression=Key('quiz_category').eq(category))
+#         paginator = quizzes_table.get_paginator(
+#             quizzes_table.get_querry(
+#                 KeyConditionExpression=Key('quiz_category').eq(category), Select='SPECIFIC_ATTRIBUTES', AttributesToGet=[get_category], Limit = 3
+#             )
+#         )
+#         result = [i['Items'] for i in paginator['Items']]
+#         _page['category_name'] = category
+#         if 'NextToken' in paginator.keys():
+#             _page['NextToken'] = paginator['NextToken'][0]
+#         #print(_vars)
+# #
+#         return render_template('quizpage.html', result=result)   
+# #
+#     elif request.method == 'POST':
+# #        
+#             if 'next' in request.form.keys():
+# #
+#                 result = [i['data'] for i in paginator['data']]
+#                 if 'before' in paginator.keys():
+#                     _page['before'] = paginator['before'][0]
+#                 if 'NextToken' in paginator.keys():
+#                     _page['NextToken'] = paginator['NextToken'][0]
+#                 return render_template('new_quiz.html', result=result)
+# #
 
 
 if __name__ == "__main__":

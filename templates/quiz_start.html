@@ -1,6 +1,6 @@
 <!doctype html>
 <title>Multiple Question Quiz</title>
-<link rel=stylesheet type=text/css href='{{ url_for('static',filename='style_miniquiz.css')}}'>
+<link rel=stylesheet type=text/css href='{{ url_for('static',filename='style_quiz.css')}}'>
 <div>
   <h1>Question #{{num}} of {{ntot}}</h1>
 
@@ -17,7 +17,13 @@
    <input type='radio' name='quiz_answer' id="x3" value={{ans3}} /> <label for="r3" style="color:{{ans_color3}};border:2px solid #ccc;border-style: groove;padding: 10px;">{{ans3}}{{anscheck3}}</label> <br /> <br /> <br />
    <input type='radio' name='quiz_answer' id="x4" value={{ans4}} /> <label for="r4" style="color:{{ans_color4}};border:2px solid #ccc;border-style: groove;padding: 10px;">{{ans4}}{{anscheck4}}</label> <br /> <br /> <br />   
    </p>
-
+   {% with messages = get_flashed_messages() %}
+   {% if messages %}
+      {% for message in messages %}
+         {{ message }}
+      {% endfor %}
+   {% endif %}
+{% endwith %}
    
    <p>
    <input type='submit' value='Check' id="x6" formaction="/checkform_quiz" />    
