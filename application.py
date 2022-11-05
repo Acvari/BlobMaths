@@ -34,6 +34,8 @@ dynamodb_session = Session(aws_access_key_id='AKIAXOML5L575E3RVL3R',
 database = dynamodb_session.resource("dynamodb", region_name="eu-west-2")
 increment = database.Table('User').item_count
 print(increment)
+currentuser = ""
+
 
 @login.user_loader
 def load_user(id):
@@ -62,16 +64,18 @@ def login():
 
 @app.route('/run_login', methods=['GET', 'POST'])
 def run_login():
-
+    global increment
+    global currentuser
     username = request.form['username']
     password = request.form['password']
 
     # Grabs the whole table of user from the database
     users = database.Table("User")
-    for i in range(users.item_count):
+    for i in range(increment):
         record = users.get_item(Key={"ID": i})
         # Admin login
         if (username == record['Item']['Username']) and (password == record['Item']['Password']):
+            currentuser=username
             if record['Item']['AccountID']=="Admin":
                 login_user(user)
                 url = "/admin"
@@ -206,6 +210,45 @@ def add_quiz():
 #
     return jsonify({'success': 'success'})
 #
+
+#Helper function to get questionset for a module
+def get_questions(module):
+    try:
+        modules = database.Table("Module")
+        modules = modules.get_item(Key={"ModuleID": module})
+        questionset = modules['Item']['Questions']
+        return questionset
+    except:
+        print("Database Error")
+
+@app.route('/tempgame/<module>')
+def tempgame(module):
+    questions = get_questions(module)
+    print(questions)
+    datatojs = {'questionset': questions, 'numofq': len(questions), 'qmodule': module}
+    return render_template('tempgame.html', datajs = datatojs)
+
+@app.route('/send_results', methods=['POST', 'GET'])
+def send_results():
+    global currentuser
+    data = request.form['Score']
+    module = request.form['Module']
+    numofq = request.form['Num']
+    try:
+        res = database.Table('Results')
+        user = res.get_item(Key={"Username": currentuser})
+        modulesdata = user['Item']['Scores']
+        modulesdata.append(data)
+        res.put_item(
+            TableName='Results',
+            Item= {
+                'Username': currentuser,
+                'Scores': modulesdata
+            }
+        )
+    except:
+        pass
+    return jsonify({'success': 'success'})
 
 # WORK IN PROGRESS
 # _page = {
