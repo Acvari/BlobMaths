@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quiz Time!</title>
+    <style>
+        #q {
+            width:  300px;
+            height: 50px;
+            border: 1px solid #aaaaaa;
+            padding: 10px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #answerbox {
+          width: 350px;
+          height: 70px;
+          padding: 10px;
+          border: 1px solid #aaaaaa;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        #answerlist {
+          width: 350px;
+          height: 70px;
+          padding: 10px;
+          border: 1px solid #aaaaaa;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .answers {
+            width:  50px;
+            height:  50px;
+            padding:  10px;
+            border: 1px solid #aaaaaa;
+            margin-left: auto;
+            margin-right: auto;
+            float: left;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+            integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+            crossorigin="anonymous"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.6.1.js"
+            integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+            crossorigin="anonymous">              
+    </script>
+    <script>
+
+        var i=0;
+        var q;
+        var a1;
+        var a2;
+        var a3;
+        var a4;
+        var answer;
+        var score=0;
+        var numq = {{datajs.numofq}}
+        var qmod = {{datajs.qmodule | tojson}}
+
+        window.onload = function() {
+            loadq(i)
+        }
+
+        function loadq(i) {
+            q = document.getElementById("question");
+            a1 = document.getElementById("answer1");
+            a2 = document.getElementById("answer2");
+            a3 = document.getElementById("answer3");
+            a4 = document.getElementById("answer4");
+            data = {{ datajs.questionset | tojson }};
+            q.innerHTML = data[i]['quiz_question']
+            a1.innerHTML = data[i]['A']
+            a2.innerHTML = data[i]['B']
+            a3.innerHTML = data[i]['C']
+            a4.innerHTML = data[i]['D']
+            answer = data[i]['quiz_answer']
+        }
+
+        function nextq() {
+            i++;
+            var ans = document.getElementById("answerbox");
+            ans = ans.querySelector(".answers");
+            ans = ans.querySelector(".answer");
+            if (ans.innerHTML==answer) {
+                score++;
+                console.log(score);
+            }
+            if (i<numq) {
+                loadq(i);
+            }
+            else {
+
+                var mydiv = document.getElementById("finish");
+                var button = document.createElement('BUTTON');
+                var text = document.createTextNode("Finish");
+                button.appendChild(text);
+                button.id = "finishbutton";
+                mydiv.appendChild(button);
+            }
+        }
+
+        $(function () {
+            $('#finish').click(function () {
+                $.ajax({
+                url: '/send_results',
+                type: 'POST',
+                data: {
+                    Score: score, Module: qmod, Num: numq
+                },
+                success: (response) => {console.log(response)},
+                error: (error) => {console.log(error)}
+                });
+            });
+        });
+
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drag(event) {
+            event.dataTransfer.setData("Text", event.target.id);
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            var data = event.dataTransfer.getData("text");
+            event.target.appendChild(document.getElementById(data));
+        }
+
+    </script>
+
+</head>
+<body>
+     <!--Navigation bar-->
+    <nav class="navbar fixed-top navbar-dark bg-dark">
+        <div class="container-fluid">
+            <img src="/BlobMaths.png" style="height:50px; width:200px">
+            <!--<a class="navbar-brand" href="">Menu</a>-->
+            <div class="container-sm" style="text-align:left">
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"><h1>Menu</h1></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                  <a class="nav-link" href="/"><h3>Logout</h3></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/"><h3>Profile</h3></a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/game"><h3>Game</h3></a>
+                </li>
+                <li class="nav-item dropdown">
+                  <span class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <h3>Module Selection</h3>
+                  </span>
+                  <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/game">Maths</a></li>
+                    <li><a class="dropdown-item" href="/game">Maths 2</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                  </ul>
+                </li>
+                </ul>
+            </div>
+            </div>
+        </div>
+    </nav>
+<br><br><br><br><br>
+
+    <div id="q">
+        <p id="question"></p>
+    </div>
+    <div id="answerbox" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div id="answerlist"ondrop="drop(event)" ondragover="allowDrop(event)">
+        <div class="answers" id="drag1" draggable="true" ondragstart="drag(event)"><p class="answer" id="answer1"></p></div>
+        <div class="answers" id="drag2" draggable="true" ondragstart="drag(event)"><p class="answer" id="answer2"></p></div>
+        <div class="answers" id="drag3" draggable="true" ondragstart="drag(event)"><p class="answer" id="answer3"></p></div>
+        <div class="answers" id="drag4" draggable="true" ondragstart="drag(event)"><p class="answer" id="answer4"></p></div>
+    </div>
+    <button onclick="nextq()">Next</button>
+    <div id="finish"></div>
+</body>
+</html>
+
