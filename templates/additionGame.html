@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Addition Game</title>
+
+    <style>
+        #q {
+            width:  300px;
+            height: 50px;
+            border: 1px solid #aaaaaa;
+            padding: 10px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #answerbox {
+          width: 350px;
+          height: 70px;
+          padding: 10px;
+          border: 1px solid #aaaaaa;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        #answerlist {
+          width: 350px;
+          height: 70px;
+          padding: 10px;
+          border: 1px solid #aaaaaa;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .answers {
+            width:  50px;
+            height:  50px;
+            padding:  10px;
+            border: 1px solid #aaaaaa;
+            margin-left: auto;
+            margin-right: auto;
+            float: left;
+        }
+
+    </style>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+            integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+            crossorigin="anonymous"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.6.1.js"
+            integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+            crossorigin="anonymous"></script>
+
+    <script src="addition_game.js"></script>
+
+
+</head>
+<body>
+
+<br><br><br><br><br>
+
+<div id="q">
+    <p id="question"></p>
+</div>
+<div id="answerbox" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+<div id="answerlist" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <div class="answers" id="drag1" draggable="true" ondragstart="drag(event)"><p class="answer" id="answer1"></p></div>
+    <div class="answers" id="drag2" draggable="true" ondragstart="drag(event)"><p class="answer" id="answer2"></p></div>
+    <div class="answers" id="drag3" draggable="true" ondragstart="drag(event)"><p class="answer" id="answer3"></p></div>
+    <div class="answers" id="drag4" draggable="true" ondragstart="drag(event)"><p class="answer" id="answer4"></p></div>
+</div>
+<div>
+    <button id="Start">Start</button>
+</div>
+<div id="next"></div>
+<div id="previous"></div>
+<div id="finish"></div>
+
+<div id="score"></div>
+
+
+
+
+</body>
+</html>
