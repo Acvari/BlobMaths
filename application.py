@@ -41,26 +41,17 @@ currentuser = ""
 def load_user(id):
     return user
 
+
 @app.route('/')
 def home():
+    # return redirect('/login')
     return redirect('/login')
 
-@app.route('/game', methods=['GET', 'POST'])
-def game():
-    print(current_user.nickname)
-    answerform = answerForm()
-    flash(f"Hello " + user.nickname)
-    if answerform.validate_on_submit():
-        if answerform.answer.data == answerform.answers:
-            flash("Correct!")
-        else:
-            flash("Not Quite!")
-
-    return render_template('game.html', title='Game', form=answerform)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     return render_template('login.html')
+
 
 @app.route('/run_login', methods=['GET', 'POST'])
 def run_login():
@@ -75,19 +66,20 @@ def run_login():
         record = users.get_item(Key={"ID": i})
         # Admin login
         if (username == record['Item']['Username']) and (password == record['Item']['Password']):
-            currentuser=username
-            if record['Item']['AccountID']=="Admin":
+            currentuser = username
+            if record['Item']['AccountID'] == "Admin":
                 login_user(user)
                 url = "/admin"
 
-            elif record['Item']['AccountID']=="Student":
+            elif record['Item']['AccountID'] == "Student":
                 login_user(user)
                 url = "/moduleSelection"
-            elif record['Item']['AccountID']=="Teacher":
+            elif record['Item']['AccountID'] == "Teacher":
                 login_user(user)
-                url= "/createquiz"
+                url = "/createquiz"
             return jsonify({'success': 'success', 'url': url})
     return jsonify({'success': 'success', 'url': '/login'})
+
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
@@ -96,10 +88,9 @@ def profile():
         user.nickname = request.form['nickname']
         print(user.nickname)
     return render_template('profile.html',
-                            title="Profile",
-                            form=form,
-                            )
-
+                           title="Profile",
+                           form=form,
+                           )
 
 
 @app.route('/admin', methods=['GET', 'POST'])
@@ -107,6 +98,7 @@ def admin():
     user_form = UserForm()
 
     return render_template('new-admin.html', title='Account creation')
+
 
 @app.route('/create_account', methods=['GET', 'POST'])
 def create_account():
@@ -117,7 +109,7 @@ def create_account():
     dob = request.form['DOB']
     firstname = request.form['FirstName']
     lastname = request.form['LastName']
-    #don't make account if blank categories
+    # don't make account if blank categories
     if (not account_id or not dob or not firstname or not lastname):
         return render_template('new-admin.html', title='Account creation')
     # Welcome to the ugliest code ive ever written
@@ -147,7 +139,7 @@ def create_account():
     user_table.put_item(
         TableName='User',
         Item={
-            'ID' : increment,
+            'ID': increment,
             'AccountID': account_id,
             'DOB': dob,
             'FirstName': firstname,
@@ -157,7 +149,7 @@ def create_account():
             'Password': password
         }
     )
-    increment+=1
+    increment += 1
 
     return jsonify({'success': 'success'})
 
@@ -170,6 +162,7 @@ def module_selection():
 @app.route('/createquiz', methods=['POST', 'GET'])
 def create_quiz():
     return render_template('quiz_creation.html')
+
 
 @app.route('/addquiz', methods=['POST', 'GET'])
 def add_quiz():
@@ -185,21 +178,23 @@ def add_quiz():
         modules = database.Table('Module')
         category = modules.get_item(Key={"ModuleID": quiz_category})
         length = len(category['Item']['Questions'])
-        
-        if length==0:
+
+        if length == 0:
             modules.put_item(
                 TableName='Module',
-                Item = {
+                Item={
                     'ModuleID': quiz_category,
-                    'Questions': [{'quiz_question': quiz_question,'A': quiz_A,'B': quiz_B,'C': quiz_C,'D': quiz_D,'quiz_answer': quiz_answer}]
+                    'Questions': [{'quiz_question': quiz_question, 'A': quiz_A, 'B': quiz_B, 'C': quiz_C, 'D': quiz_D,
+                                   'quiz_answer': quiz_answer}]
                 }
             )
         else:
             currentquestions = category['Item']['Questions']
-            currentquestions.append({'quiz_question': quiz_question,'A': quiz_A,'B': quiz_B,'C': quiz_C,'D': quiz_D,'quiz_answer': quiz_answer})
+            currentquestions.append({'quiz_question': quiz_question, 'A': quiz_A, 'B': quiz_B, 'C': quiz_C, 'D': quiz_D,
+                                     'quiz_answer': quiz_answer})
             modules.put_item(
                 TableName='Module',
-                Item = {
+                Item={
                     'ModuleID': quiz_category,
                     'Questions': currentquestions
                 }
@@ -207,12 +202,15 @@ def add_quiz():
     except:
         print("OOPSIE SOMEONES BEEN A NAUGGHHHHHTY BOY")
 
-#
+    #
     return jsonify({'success': 'success'})
+
+
 #
 
-#Helper function to get questionset for a module
+# Helper function to get questionset for a module
 def get_questions(module):
+    # modules: Addition, Division, Multiplication, Subtraction
     try:
         modules = database.Table("Module")
         modules = modules.get_item(Key={"ModuleID": module})
@@ -221,16 +219,43 @@ def get_questions(module):
     except:
         print("Database Error")
 
+
 @app.route('/tempgame/<module>')
 def tempgame(module):
     questions = get_questions(module)
     print(questions)
     datatojs = {'questionset': questions, 'numofq': len(questions), 'qmodule': module}
-    return render_template('tempgame.html', datajs = datatojs)
+    return render_template('tempgame.html', datajs=datatojs)
+
+
+@app.route('/addition', methods=['GET', 'POST'])
+def gameAddition():
+    return render_template('additionGame.html')
+
+
+@app.route('/addition_questions', methods=['GET'])
+def addition_questions():
+    module = "Addition"
+    questions = get_questions("Addition")
+    print(questions)
+
+    question = questions[1]['quiz_question']
+
+    a = questions[1]['A']
+    b = questions[1]['B']
+    c = questions[1]['C']
+    d = questions[1]['D']
+
+    answer = questions[1]['quiz_answer']
+
+    question_data = {'questionset': questions, 'numofq': len(questions), 'qmodule': module}
+
+    return question_data
+
 
 @app.route('/send_results', methods=['POST', 'GET'])
 def send_results():
-    global currentuser
+    # global currentuser
     data = request.form['Score']
     module = request.form['Module']
     numofq = request.form['Num']
@@ -241,7 +266,7 @@ def send_results():
         modulesdata.append(data)
         res.put_item(
             TableName='Results',
-            Item= {
+            Item={
                 'Username': currentuser,
                 'Scores': modulesdata
             }
@@ -249,6 +274,7 @@ def send_results():
     except:
         pass
     return jsonify({'success': 'success'})
+
 
 # WORK IN PROGRESS
 # _page = {

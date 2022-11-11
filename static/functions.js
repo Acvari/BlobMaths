@@ -9,7 +9,7 @@ function changeConfirmation(e) {
     setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 }
 
-submit.click(function(e){
+submit.onClick(function(e){
     e.preventDefault();
     changeConfirmation();
   });
