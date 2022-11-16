@@ -5,9 +5,10 @@ $(function () {
             type: 'GET',
             datatype: 'json',
             success: (response) => {
-                console.log(response)
+                // console.log(response)
                 createNextButton();
                 createPreviousButton();
+                removeStartButton();
                 main(response['numofq'], response['qmodule'], response['questionset'])
             },
             error: (error) => {
@@ -29,6 +30,13 @@ let score = 0;
 let question_data;
 let numq;
 let qmod;
+let finishButtonCreated = false;
+
+const removeStartButton = () => {
+    let element = document.getElementById("Start");
+    element.remove();
+    console.log("Removed start button.");
+}
 
 function main(numofq, qmodule, questionset) {
     numq = numofq;
@@ -38,7 +46,7 @@ function main(numofq, qmodule, questionset) {
 }
 
 function loadq(i) {
-    console.log(questionNumber);
+    console.log("Question number: ", questionNumber);
     q = document.getElementById("question");
     a1 = document.getElementById("answer1");
     a2 = document.getElementById("answer2");
@@ -81,9 +89,11 @@ function createNextButton() {
             loadq(questionNumber);
         } // If trying to go to previous question that does not exist
         else if ((questionNumber + 1) >= numq) {
-            createFinishButton();
+            if (finishButtonCreated !== true) {
+                finishButtonCreated = true;
+                createFinishButton();
+            }
         }
-
     };
     mydiv.appendChild(button);
 }
@@ -127,6 +137,8 @@ function createFinishButton() {
 
         console.log("Score: ", score);
 
+        window.location='/profile';
+
         // $.ajax({
         //     url: '/send_results',
         //     type: 'GET',
@@ -153,6 +165,17 @@ function allowDrop(event) {
 
 function drag(event) {
     event.dataTransfer.setData("Text", event.target.id);
+}
+
+function answer_box_drop(event) {
+    event.preventDefault();
+    let data = event.dataTransfer.getData("text");
+    if (event.target.childNodes.length >= 1) {
+        console.log("Prevented multiple answers being given.")
+        event.preventDefault();
+    } else {
+        event.target.appendChild(document.getElementById(data));
+    }
 }
 
 function drop(event) {
