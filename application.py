@@ -167,6 +167,7 @@ def create_quiz():
 @app.route('/addquiz', methods=['POST', 'GET'])
 def add_quiz():
     quiz_category = request.form['quiz_category']
+    quiz_difficulty = request.form['quiz_difficulty']
     quiz_question = request.form['quiz_question']
     quiz_A = request.form['A']
     quiz_B = request.form['B']
@@ -179,28 +180,36 @@ def add_quiz():
         category = modules.get_item(Key={"ModuleID": quiz_category})
         length = len(category['Item']['Questions'])
 
-        if length == 0:
-            modules.put_item(
-                TableName='Module',
-                Item={
-                    'ModuleID': quiz_category,
-                    'Questions': [{'quiz_question': quiz_question, 'A': quiz_A, 'B': quiz_B, 'C': quiz_C, 'D': quiz_D,
-                                   'quiz_answer': quiz_answer}]
-                }
-            )
-        else:
-            currentquestions = category['Item']['Questions']
-            currentquestions.append({'quiz_question': quiz_question, 'A': quiz_A, 'B': quiz_B, 'C': quiz_C, 'D': quiz_D,
-                                     'quiz_answer': quiz_answer})
-            modules.put_item(
-                TableName='Module',
-                Item={
-                    'ModuleID': quiz_category,
-                    'Questions': currentquestions
-                }
-            )
+        currentquestions = category['Item']['Questions']
+        currentquestions.append({
+            'quiz_question': quiz_question,
+            'quiz_difficulty': quiz_difficulty,
+            'A': quiz_A,
+            'B': quiz_B,
+            'C': quiz_C,
+            'D': quiz_D,
+            'quiz_answer': quiz_answer
+        })
+        modules.put_item(
+            TableName='Module',
+            Item={
+                'ModuleID': quiz_category,
+                'Questions': currentquestions
+            }
+        )
+        # else:
+        #     currentquestions = category['Item']['Questions']
+        #     currentquestions.append({'quiz_question': quiz_question, 'quiz_difficulty': quiz_difficulty, 'A': quiz_A,
+        #                              'B': quiz_B, 'C': quiz_C, 'D': quiz_D, 'quiz_answer': quiz_answer})
+        #     modules.put_item(
+        #         TableName='Module',
+        #         Item={
+        #             'ModuleID': quiz_category,
+        #             'Questions': currentquestions
+        #         }
+        #     )
     except:
-        print("OOPSIE SOMEONES BEEN A NAUGGHHHHHTY BOY")
+        print("Adding the question to the database has failed.")
 
     #
     return jsonify({'success': 'success'})
