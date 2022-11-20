@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Add content!</title>
+    <title>BlobMaths - Addition content</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
@@ -20,8 +20,8 @@
     <script src=""></script>
     -->
     <style>
-        #DetailsBox {
-          width: auto;
+        #VideoBox {
+          width: 75%;
           height: auto;
           padding: 10px;
           border: 0 solid #000000;
@@ -29,12 +29,6 @@
           margin-left: 100px;
           align-items: center;
           justify-content: center;
-        }
-        #Opt{
-            width: 100px;
-            height: 50px;
-            margin-top: 10px;
-            margin-left: 10px;
         }
     </style>
 </head>
@@ -61,27 +55,27 @@
             </li>
             <li class="nav-item dropdown">
               <span class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <h3>Content Creation</h3>
+                <h3>Content</h3>
               </span>
               <ul class="dropdown-menu dropdown-menu-dark">
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="/addcontent">Addition</a></li>
-                <li><a class="dropdown-item" href="/addcontent">Substraction</a></li>
-                <li><a class="dropdown-item" href="/addcontent">Multiplication</a></li>
-                <li><a class="dropdown-item" href="/addcontent">Division</a></li>
+                <li><a class="dropdown-item" href="/additionContent">Addition</a></li>
+                <li><a class="dropdown-item" href="/additionContent">Substraction</a></li>
+                <li><a class="dropdown-item" href="/additionContent">Multiplication</a></li>
+                <li><a class="dropdown-item" href="/additionContent">Division</a></li>
                 <li><hr class="dropdown-divider"></li>
               </ul>
             </li>
             <li class="nav-item dropdown">
                 <span class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <h3>Quiz Creation</h3>
+                  <h3>Quizzes</h3>
                 </span>
                 <ul class="dropdown-menu dropdown-menu-dark">
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="/createquiz">Addition</a></li>
-                  <li><a class="dropdown-item" href="/createquiz">Substraction</a></li>
-                  <li><a class="dropdown-item" href="/createquiz">Multiplication</a></li>
-                  <li><a class="dropdown-item" href="/createquiz">Division</a></li>
+                  <li><a class="dropdown-item" href="/addition">Addition</a></li>
+                  <li><a class="dropdown-item" href="/addition">Substraction</a></li>
+                  <li><a class="dropdown-item" href="/addition">Multiplication</a></li>
+                  <li><a class="dropdown-item" href="/addition">Division</a></li>
                   <li><hr class="dropdown-divider"></li>
                 </ul>
               </li>
@@ -92,28 +86,9 @@
 </nav>
 <br><br><br>
 <!--Content addition-->
-<div class="contribute">
-    <div id="DetailsBox">
-    <h2 style="font-weight: bolder">Add a video to the database</h2>
-    <form name="newcontent" id="newcontent">
-        <span style="font-weight: bolder">Pick a category</span>
-        <select name="content_category" id="" aria-placeholder="Pick a category" class="form-control" style="width: 300px;">
-            <option value="">--Please choose an option--</option>
-            <option value="Addition">Addition</option>
-            <option value="Subtraction">Subtraction</option>
-            <option value="Multiplication">Multiplication</option>
-            <option value="Division">Division</option>
-        </select>
-        <br>
-    </div>
-        <div class="quiz_details" id="DetailsBox">
-            <h3 style="font-weight: bolder">What is the link to the video?</h3>
-            <textarea name="content_link" id="" placeholder="Link:" class="form-control" style="width: 300px;"></textarea>
-        </div>
-        <div>
-            <button type="button" id="sub" class="btn btn-lg btn-primary btn-block" style="margin-left: 100px;">Submit</button>
-        </div>
-    </form>
+<!--Height is determined by the height in the embedded video, works well on 720px, however the screen resolution of the user might affect it-->
+<div id="VideoBox">
+    <iframe width="100%" height="720px" src="https://www.youtube.com/embed/8cMywGtieBY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 <!--Footer-->
     <div class="row container-fluid fixed-bottom">
