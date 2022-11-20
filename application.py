@@ -163,6 +163,10 @@ def module_selection():
 def create_quiz():
     return render_template('quiz_creation.html')
 
+@app.route('/addcontent', methods=['POST', 'GET'])
+def add_content():
+    return render_template('content_creation.html')
+
 
 @app.route('/addquiz', methods=['POST', 'GET'])
 def add_quiz():

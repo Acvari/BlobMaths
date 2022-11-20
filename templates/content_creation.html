@@ -16,7 +16,9 @@
             src="https://code.jquery.com/jquery-3.6.1.js"
             integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
             crossorigin="anonymous"></script>
-    <script src="createquiz.js"></script>
+    <!-- Add script in src
+    <script src=""></script>
+    -->
     <style>
         #DetailsBox {
           width: auto;
@@ -58,7 +60,7 @@
               <a class="nav-link" href="/"><h3>Logout</h3></a>
             </li>
             <li class="nav-item dropdown">
-              <span class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <h3>Content Creation</h3>
               </span>
               <ul class="dropdown-menu dropdown-menu-dark">
@@ -71,7 +73,7 @@
               </ul>
             </li>
             <li class="nav-item dropdown">
-                <span class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   <h3>Quiz Creation</h3>
                 </span>
                 <ul class="dropdown-menu dropdown-menu-dark">
@@ -89,48 +91,33 @@
     </div>
 </nav>
 <br><br><br>
-<!--Question form-->
-        <div class="contribute">
-            <div id="DetailsBox">
-            <h2 style="font-weight: bolder">Add a quiz to the database</h2>
-            <form name="newquiz" id="newquiz">
-                <span style="font-weight: bolder">Pick a category</span>
-                <select name="quiz_category" id="" aria-placeholder="Pick a category" class="form-control" style="width: 300px;">
-                    <option value="">--Please choose an option--</option>
-                    <option value="Addition">Addition</option>
-                    <option value="Subtraction">Subtraction</option>
-                    <option value="Multiplication">Multiplication</option>
-                    <option value="Division">Division</option>
-                </select>
-                <br>
-                <span style="font-weight: bolder">Pick a difficulty</span>
-                <select name="quiz_difficulty" id="" aria-placeholder="Pick a difficulty" class="form-control" style="width: 300px;">
-                    <option value="">--Please choose an option--</option>
-                    <option value="Easy">Easy</option>
-                    <option value="Challenging">Challenging</option>
-                    <option value="Hard">Hard</option>
-                </select>
-            </div>
-                <div class="quiz_details" id="DetailsBox">
-                    <h3 style="font-weight: bolder">Give us the details</h3>
-                    <textarea name="quiz_question" id="" placeholder="Type in the question:" class="form-control" style="width: 300px;"></textarea>
-                    <div class="quiz_options">
-                        <input type="text" name="A" placeholder="Option A" class="form-control" id="Opt">
-                        <input type="text" name="B" placeholder="Option B" class="form-control" id="Opt">
-                        <input type="text" name="C" placeholder="Option C" class="form-control" id="Opt">
-                        <input type="text" name="D" placeholder="Option D" class="form-control" id="Opt">
-                        <br>
-                        <input type="text" name="quiz_answer" id="" placeholder="Tell us the answer:" class="form-control" style="width: 300px;">
-                    </div>
-                </div>
-                <div>
-                    <button type="button" id="sub" class="btn btn-lg btn-primary btn-block" style="margin-left: 100px;">Submit</button>
-                </div>
-            </form>
+<!--Content addition-->
+<div class="contribute">
+    <div id="DetailsBox">
+    <h2 style="font-weight: bolder">Add a video to the database</h2>
+    <form name="newcontent" id="newcontent">
+        <span style="font-weight: bolder">Pick a category</span>
+        <select name="content_category" id="" aria-placeholder="Pick a category" class="form-control" style="width: 300px;">
+            <option value="">--Please choose an option--</option>
+            <option value="Addition">Addition</option>
+            <option value="Subtraction">Subtraction</option>
+            <option value="Multiplication">Multiplication</option>
+            <option value="Division">Division</option>
+        </select>
+        <br>
+    </div>
+        <div class="quiz_details" id="DetailsBox">
+            <h3 style="font-weight: bolder">What is the link to the video?</h3>
+            <textarea name="content_link" id="" placeholder="Link:" class="form-control" style="width: 300px;"></textarea>
         </div>
-
-        <div class="row container-fluid fixed-bottom">
-            <h3 style="text-align:left">Contact us at blobmaths@gmail.com</h3>
+        <div>
+            <button type="button" id="sub" class="btn btn-lg btn-primary btn-block" style="margin-left: 100px;">Submit</button>
         </div>
+    </form>
+</div>
+<!--Footer-->
+    <div class="row container-fluid fixed-bottom">
+        <h3 style="text-align:left">Contact us at blobmaths@gmail.com</h3>
+    </div>
 </body>
 </html>
