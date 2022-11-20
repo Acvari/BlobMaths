@@ -167,6 +167,10 @@ def create_quiz():
 def add_content():
     return render_template('content_creation.html')
 
+@app.route('/additionContent', methods=['POST', 'GET'])
+def view_content():
+    return render_template('additionContent.html')
+
 
 @app.route('/addquiz', methods=['POST', 'GET'])
 def add_quiz():
