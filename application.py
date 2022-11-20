@@ -73,7 +73,7 @@ def run_login():
 
             elif record['Item']['AccountID'] == "Student":
                 login_user(user)
-                url = "/moduleSelection"
+                url = "/profile"
             elif record['Item']['AccountID'] == "Teacher":
                 login_user(user)
                 url = "/createquiz"
