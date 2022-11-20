@@ -80,6 +80,7 @@ function createNextButton() {
     let text = document.createTextNode("Next");
     button.appendChild(text);
     button.id = "nextbutton";
+    button.className = "btn btn-lg btn-primary btn-block";
     button.onclick = () => {
         saveQuestionAnswer();
 
@@ -104,6 +105,7 @@ function createPreviousButton() {
     let text = document.createTextNode("Previous");
     button.appendChild(text);
     button.id = "previousButton";
+    button.className = "btn btn-lg btn-primary btn-block";
     button.onclick = () => {
         saveQuestionAnswer();
 
@@ -123,8 +125,8 @@ function createFinishButton() {
     let text = document.createTextNode("Finish");
     button.appendChild(text);
     button.id = "finishbutton";
+    button.className = "btn btn-lg btn-primary btn-block";
     button.onclick = () => {
-
         for (let i = 0; i <= (question_data.length - 1); i++) {
             // console.log(i)
             // console.log(answers[i])
@@ -136,8 +138,14 @@ function createFinishButton() {
         }
 
         console.log("Score: ", score);
+        
+        //Print the snackbar at the bottom of the page
+        QuizFinished();
 
-        window.location='/profile';
+        //Redirect after snackbar
+        setTimeout(function(){
+            redirect();
+        }, 3000);
 
         // $.ajax({
         //     url: '/send_results',
@@ -182,4 +190,20 @@ function drop(event) {
     event.preventDefault();
     let data = event.dataTransfer.getData("text");
     event.target.appendChild(document.getElementById(data));
+}
+
+function QuizFinished() {
+    // Get the snackbar DIV
+    var x = document.getElementById("snackbar");
+  
+    // Add the "show" class to DIV
+    x.className = "show";
+  
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+
+}
+
+function redirect(){
+    window.location='/profile';
 }

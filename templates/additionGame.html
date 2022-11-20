@@ -8,36 +8,103 @@
         #q {
             width:  300px;
             height: 50px;
-            border: 1px solid #aaaaaa;
+            border: 2px solid #000000;
             padding: 10px;
             margin-left: auto;
             margin-right: auto;
+            margin-bottom: 10px;
         }
         #answerbox {
           width: 350px;
           height: 70px;
           padding: 10px;
-          border: 1px solid #aaaaaa;
+          border: 2px solid #000000;
           margin-left: auto;
           margin-right: auto;
+          margin-bottom: 10px;
         }
         #answerlist {
           width: 350px;
           height: 70px;
           padding: 10px;
-          border: 1px solid #aaaaaa;
+          border: 2px solid #000000;
           margin-left: auto;
           margin-right: auto;
+          margin-bottom: 10px;
+        }
+        #StartButtonDiv {
+          width: 100px;
+          height: 50px;
+          padding: 10px;
+          border: 0 solid #000000;
+          margin:auto;
+          align-items: center;
+          justify-content: center;
+        }
+        #FunctionButtons {
+          width: 300px;
+          height: 130px;
+          padding: 10px;
+          border: 0 solid #000000;
+          margin:auto;
+          align-items: center;
+          justify-content: center;
         }
         .answers {
             width:  50px;
             height:  50px;
             padding:  10px;
-            border: 1px solid #aaaaaa;
+            border: 2px solid #000000;
             margin-left: auto;
-            margin-right: auto;
+            margin-right: 30px;
             float: left;
         }
+
+        /* The snackbar - position it at the bottom and in the middle of the screen */
+        #snackbar {
+            visibility: hidden; /* Hidden by default. Visible on click */
+            min-width: 250px; /* Set a default minimum width */
+            margin-left: -125px; /* Divide value of min-width by 2 */
+            background-color: #333; /* Black background color */
+            color: #fff; /* White text color */
+            text-align: center; /* Centered text */
+            border-radius: 2px; /* Rounded borders */
+            padding: 16px; /* Padding */
+            position: fixed; /* Sit on top of the screen */
+            z-index: 1; /* Add a z-index if needed */
+            left: 50%; /* Center the snackbar */
+        bottom: 30px; /* 30px from the bottom */
+        }
+  
+  /* Show the snackbar when clicking on a button (class added with JavaScript) */
+        #snackbar.show {
+            visibility: visible; /* Show the snackbar */
+            /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+            However, delay the fade out process for 2.5 seconds */
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+  
+  /* Animations to fade the snackbar in and out */
+  @-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+  }
+  
+  @keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+  }
+  
+  @-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+  }
+  
+  @keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+  }
 
     </style>
 
@@ -62,7 +129,52 @@
 
 
 </head>
-<body>
+<body style="background-image: url('/Background.jpg'); background-attachment: fixed; background-size: cover;">
+
+        <!--Navigation bar-->
+        <nav class="navbar fixed-top navbar-dark bg-dark">
+            <div class="container-fluid">
+                <img src="/BlobMaths.png" style="height:50px; width:200px">
+                <!--<a class="navbar-brand" href="">Menu</a>-->
+                <div class="container-sm" style="text-align:left">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"><h1>Menu</h1></h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item">
+                      <a class="nav-link" href="/"><h3>Logout</h3></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/profile"><h3>Profile</h3></a>
+                      </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/game"><h3>Game</h3></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <span class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <h3>Module Selection</h3>
+                      </span>
+                      <ul class="dropdown-menu dropdown-menu-dark">
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/addition">Addition</a></li>
+                        <li><a class="dropdown-item" href="#">Substracion</a></li>
+                        <li><a class="dropdown-item" href="#">Multiplication</a></li>
+                        <li><a class="dropdown-item" href="#">Division</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                      </ul>
+                    </li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </nav>
 
 <br><br><br><br><br>
 
@@ -76,14 +188,21 @@
     <div class="answers" id="drag3" draggable="true" ondragstart="drag(event)"><p class="answer" id="answer3"></p></div>
     <div class="answers" id="drag4" draggable="true" ondragstart="drag(event)"><p class="answer" id="answer4"></p></div>
 </div>
-<div>
-    <button id="Start">Start</button>
+
+<br>
+
+<div id="StartButtonDiv">
+    <button id="Start" class="btn btn-lg btn-primary btn-block">Start</button>
 </div>
-<div id="next"></div>
-<div id="previous"></div>
-<div id="finish"></div>
+
+<div id="FunctionButtons">
+    <div id="previous" style="display: table-cell; padding: 10px"></div>
+    <div id="next" style="display: table-cell; padding: 10px"></div>
+    <div id="finish" style="display: table-cell; padding: 10px"></div>
+</div>
 
 <div id="score"></div>
+<div id="snackbar">Quiz submitted! Redirecting to profile!</div>
 
 
 
