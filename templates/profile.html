@@ -1,11 +1,7 @@
 <!doctype html>
 <html>
     <head>
-      {% if title %}
-      <title>{{ title }}</title>
-      {% else %}
       <title>BlobMaths - Profile</title>
-      {% endif %}
       <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -20,7 +16,6 @@
         <link rel="stylesheet" href="profile.css">
     </head>
     <body style="background-color:darkgray">
-        {% extends "bootstrap/base.html" %}
         {% block content %}
 
     <!--Navigation bar-->
@@ -44,29 +39,42 @@
                   <a class="nav-link" href="/"><h3>Logout</h3></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/"><h3>Profile</h3></a>
+                    <a class="nav-link" aria-current="page" href="/profile"><h3>Profile</h3></a>
                   </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"><h3>Results</h3></a>
-                </li>
                 <li class="nav-item dropdown">
                   <span class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <h3>Module Selection</h3>
+                    <h3>Content</h3>
                   </span>
                   <ul class="dropdown-menu dropdown-menu-dark">
                     <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/addition">Addition</a></li>
-                        <li><a class="dropdown-item" href="#">Substracion</a></li>
-                        <li><a class="dropdown-item" href="#">Multiplication</a></li>
-                        <li><a class="dropdown-item" href="#">Division</a></li>
+                    <li><a class="dropdown-item" href="#">Addition</a></li>
+                    <li><a class="dropdown-item" href="#">Substraction</a></li>
+                    <li><a class="dropdown-item" href="#">Multiplication</a></li>
+                    <li><a class="dropdown-item" href="#">Division</a></li>
                     <li><hr class="dropdown-divider"></li>
                   </ul>
                 </li>
+                <li class="nav-item dropdown">
+                    <span class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <h3>Quizzes</h3>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="/addition">Addition</a></li>
+                      <li><a class="dropdown-item" href="#">Substraction</a></li>
+                      <li><a class="dropdown-item" href="#">Multiplication</a></li>
+                      <li><a class="dropdown-item" href="#">Division</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                    </ul>
+                  </li>
                 </ul>
             </div>
             </div>
         </div>
     </nav>
+
+    <br><br><br><br><br>
+
 
         <div class="container-fluid" >
             <div class="row">
@@ -139,7 +147,7 @@
         </div>
         -->
         <div class="row container-fluid fixed-bottom">
-            <h3 style="text-align:left">@BlobMaths</h3>
+            <h3 style="text-align:left">Contact us at blobmaths@gmail.com</h3>
         </div>
         <div id="changeConfirmation">Changes saved!</div>
         {% endblock %}

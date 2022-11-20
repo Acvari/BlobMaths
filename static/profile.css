@@ -4,15 +4,6 @@ body {
   background-size: cover;
 }
 
-.form-control {
-    border: 0;
-}
-
-.no-border {
-    border: 0;
-    box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
-}
-
 /* The snackbar - position it at the bottom and in the middle of the screen */
 #changeConfirmation {
     visibility: hidden; /* Hidden by default. Visible on click */
