@@ -66,17 +66,21 @@ def run_login():
         record = users.get_item(Key={"ID": i})
         # Admin login
         if (username == record['Item']['Username']) and (password == record['Item']['Password']):
+            print("hi")
             currentuser = username
             if record['Item']['AccountID'] == "Admin":
                 login_user(user)
                 url = "/admin"
-
             elif record['Item']['AccountID'] == "Student":
                 login_user(user)
                 url = "/profile"
             elif record['Item']['AccountID'] == "Teacher":
                 login_user(user)
                 url = "/createquiz"
+            elif record['Item']['AccountID'] == "Researcher":
+                print('yo')
+                login_user(user)
+                url = "/researchpage"
             return jsonify({'success': 'success', 'url': url})
     return jsonify({'success': 'success', 'url': '/login'})
 
@@ -292,6 +296,9 @@ def send_results():
         pass
     return jsonify({'success': 'success'})
 
+@app.route('/researchpage')
+def researchHome():
+    return render_template("researchHome.html")
 
 # WORK IN PROGRESS
 # _page = {
