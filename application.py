@@ -171,9 +171,28 @@ def create_quiz():
 def add_content():
     return render_template('content_creation.html')
 
+@app.route('/addlink', methods=['POST', 'GET'])
+def addlink():
+    category = request.form['content_category']
+    link = request.form['content_link']
+    return jsonify({'success': 'success'})
+
+# Helper function to get links for videos for a module
+def get_link_list(module):
+    # modules: Addition, Division, Multiplication, Subtraction
+    try:
+        table_obj = database.Table("Content")
+        modules = table_obj.get_item(Key={"Module": module})
+        print(modules)
+        link_list = modules['Item']['Links']
+        return link_list
+    except:
+        print("Database Error")
+
 @app.route('/additionContent', methods=['POST', 'GET'])
 def view_content():
-    link_list = get_link_list('addition')
+    link_list = get_link_list('Addition')
+    print(link_list)
     return render_template('additionContent.html', links_to_publish = link_list)
 
 
@@ -240,19 +259,6 @@ def get_questions(module):
         return questionset
     except:
         print("Database Error")
-
-# Helper function to get links for videos for a module
-def get_link_list(module):
-    # modules: Addition, Division, Multiplication, Subtraction
-    try:
-        table_obj = database.Table("Content")
-        modules = table_obj.get_item(Key={"Module": module})
-        link_list = modules['Item']['Links']
-        return link_list
-    except:
-        print("Database Error")
-
-
 
 @app.route('/tempgame/<module>')
 def tempgame(module):
