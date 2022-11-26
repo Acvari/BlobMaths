@@ -173,7 +173,8 @@ def add_content():
 
 @app.route('/additionContent', methods=['POST', 'GET'])
 def view_content():
-    return render_template('additionContent.html')
+    link_list = get_link_list('addition')
+    return render_template('additionContent.html', links_to_publish = link_list)
 
 
 @app.route('/addquiz', methods=['POST', 'GET'])
@@ -239,6 +240,18 @@ def get_questions(module):
         return questionset
     except:
         print("Database Error")
+
+# Helper function to get links for videos for a module
+def get_link_list(module):
+    # modules: Addition, Division, Multiplication, Subtraction
+    try:
+        table_obj = database.Table("Content")
+        modules = table_obj.get_item(Key={"Module": module})
+        link_list = modules['Item']['Links']
+        return link_list
+    except:
+        print("Database Error")
+
 
 
 @app.route('/tempgame/<module>')
