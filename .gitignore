@@ -168,3 +168,4 @@ BlobMaths/bin/rst2xetex.py
 BlobMaths/bin/rst2xml.py
 BlobMaths/bin/rstpep2html.py
 .gitignore
+BlobMaths/bin/pip3.10.exe

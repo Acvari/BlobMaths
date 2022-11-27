@@ -19,12 +19,11 @@
     <script src="addcontent.js"></script>
     <style>
         #DetailsBox {
-          width: auto;
-          height: auto;
+          width: 500px;
+          height: 350px;
           padding: 10px;
           border: 0 solid #000000;
-          margin:auto;
-          margin-left: 100px;
+          margin: auto;
           align-items: center;
           justify-content: center;
         }
@@ -90,8 +89,8 @@
 </nav>
 <br><br><br>
 <!--Content addition-->
-<div class="contribute">
-    <div id="DetailsBox">
+<div class="contribute" id="DetailsBox">
+    <div>
     <h2 style="font-weight: bolder">Add a video to the database</h2>
     <form name="newcontent" id="newcontent">
         <span style="font-weight: bolder">Pick a category</span>
@@ -104,12 +103,12 @@
         </select>
         <br>
     </div>
-        <div class="quiz_details" id="DetailsBox">
+        <div class="quiz_details">
             <h3 style="font-weight: bolder">What is the link to the video?</h3>
             <textarea name="content_link" id="" placeholder="Link:" class="form-control" style="width: 300px;"></textarea>
         </div>
         <div>
-            <button type="button" id="sub" class="btn btn-lg btn-primary btn-block" style="margin-left: 100px;">Submit</button>
+            <button type="button" id="sub" class="btn btn-lg btn-primary btn-block" style="margin-left: 100px; margin-top: 50px;">Submit</button>
         </div>
     </form>
 </div>
