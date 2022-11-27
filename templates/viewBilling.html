@@ -1,0 +1,52 @@
+<div class="container">
+    <h2>Current Clients Billing Information</h2>
+    <table class="table">
+<table style="width:100%">
+    <!-- table header -->
+    {% if data %}
+    <tr>
+       {% for key in data[0] %}
+       <th> {{ key }} </th>
+       {% endfor %}
+    </tr>
+    {% endif %}
+  
+    <!-- table rows -->
+    {% for dict_item in data %}
+    <tr>
+       {% for value in dict_item.values() %}
+       <td> {{ value }} </td>
+       {% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+
+
+
+
+
+
+
+<!---
+<div class="container">
+    <h2>Current Clients Billing Information</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>School</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Card Number</th>
+        </tr>
+      </thead>
+        <tr>
+          <td>data</td>
+          <td>data</td>
+          <td>data</td>
+          <td>data</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+-->
