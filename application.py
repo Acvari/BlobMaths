@@ -358,7 +358,6 @@ def view_billing():
     billing_table = database.Table('Billing')
     response = billing_table.scan()
     items = response['Items']
-    print (items)
     return render_template('viewBilling.html', data=items)
 
 
