@@ -1,7 +1,6 @@
 from unittest import case
 from awscli.errorhandler import ClientError
 from awscli.paramfile import logger
-from django.shortcuts import render
 from flask import Flask, render_template, flash, redirect, request, jsonify
 from secret import Config
 from forms import LoginForm
