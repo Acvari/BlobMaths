@@ -1,6 +1,7 @@
 from unittest import case
 from awscli.errorhandler import ClientError
 from awscli.paramfile import logger
+from django.shortcuts import render
 from flask import Flask, render_template, flash, redirect, request, jsonify
 from secret import Config
 from forms import LoginForm
@@ -319,44 +320,45 @@ def send_results():
 def researchHome():
     return render_template("researchHome.html")
 
-# WORK IN PROGRESS
-# _page = {
-#     'category_name': None,
-#     'NextToken': None,
-# }
-# @app.route('/quizbycategory', defaults={'category':None}, methods=['POST'])
-# @app.route('/quizbycategory/<category>')
-# #
-# def get_quiz_by_category(category):
-#     if request.method == 'GET':
-# #        
-#         quizzes_table = database.Table('Quizzes')
-#         response = quizzes_table.scan
-#         get_category = quizzes_table.get_query(KeyConditionExpression=Key('quiz_category').eq(category))
-#         paginator = quizzes_table.get_paginator(
-#             quizzes_table.get_querry(
-#                 KeyConditionExpression=Key('quiz_category').eq(category), Select='SPECIFIC_ATTRIBUTES', AttributesToGet=[get_category], Limit = 3
-#             )
-#         )
-#         result = [i['Items'] for i in paginator['Items']]
-#         _page['category_name'] = category
-#         if 'NextToken' in paginator.keys():
-#             _page['NextToken'] = paginator['NextToken'][0]
-#         #print(_vars)
-# #
-#         return render_template('quizpage.html', result=result)   
-# #
-#     elif request.method == 'POST':
-# #        
-#             if 'next' in request.form.keys():
-# #
-#                 result = [i['data'] for i in paginator['data']]
-#                 if 'before' in paginator.keys():
-#                     _page['before'] = paginator['before'][0]
-#                 if 'NextToken' in paginator.keys():
-#                     _page['NextToken'] = paginator['NextToken'][0]
-#                 return render_template('new_quiz.html', result=result)
-# #
+@app.route('/billing')
+def billing():
+    user_form = UserForm()
+    return render_template('billing.html')
+
+@app.route('/add_card', methods=['GET', 'POST'])
+def add_card():
+    print(request.form)
+    school = request.form['school']
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    card_number = request.form['card_number']
+    expiration_date = request.form['card_expiration_date']
+    card_cvc = request.form['card_cvc']
+
+    if (not school or not first_name or not last_name or not card_number):
+        return render_template('billing.html', title='Billing')
+
+    billing_table = database.Table('Billing')
+
+    billing_table.put_item(
+        TableName='Billing',
+        Item={
+            'School': school,
+            'First Name': first_name,
+            'Last Name': last_name,
+            'Card Number': card_number,
+            'Expiration Date': expiration_date,
+            'CVC': card_cvc
+        }
+    )
+    return jsonify({'success': 'success'})
+
+@app.route('/view_billing', methods=['GET', 'POST'])
+def view_billing():
+    billing_table = database.Table('Billing')
+    response = billing_table.scan()
+    items = response['Items']
+    return render_template('viewBilling.html', data=items)
 
 
 if __name__ == "__main__":
