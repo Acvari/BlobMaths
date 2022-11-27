@@ -320,10 +320,9 @@ def send_results():
 def researchHome():
     return render_template("researchHome.html")
 
-@app.route('/billing', methods=['GET', 'POST'])
+@app.route('/billing')
 def billing():
     user_form = UserForm()
-
     return render_template('billing.html')
 
 @app.route('/add_card', methods=['GET', 'POST'])
@@ -335,7 +334,6 @@ def add_card():
     card_number = request.form['card_number']
     expiration_date = request.form['card_expiration_date']
     card_cvc = request.form['card_cvc']
-    # don't make account if blank categories
 
     if (not school or not first_name or not last_name or not card_number):
         return render_template('billing.html', title='Billing')
@@ -354,6 +352,14 @@ def add_card():
         }
     )
     return jsonify({'success': 'success'})
+
+@app.route('/view_billing', methods=['GET', 'POST'])
+def view_billing():
+    billing_table = database.Table('Billing')
+    response = billing_table.scan()
+    items = response['Items']
+    print (items)
+    return render_template('viewBilling.html', data=items)
 
 
 if __name__ == "__main__":

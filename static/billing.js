@@ -2,7 +2,7 @@ $(function () {
     $('#Submit').click(function () {
         console.log($('#billingInformationID').serialize())
         $.ajax({
-            url: '/billing',
+            url: '/add_card',
             type: 'POST',
             data: $('#billingInformationID').serialize(),
             success: (response) => $('#billingInformationID').resetForm(),
@@ -11,8 +11,9 @@ $(function () {
     });
 });
 
+
 jQuery.fn.resetForm = function() {
     var $form = $(this);
-    $form.find('input:text, input:password, input:file, textarea').val('');
+    $form.find('input:text, input:file, textarea').val('');
     return this;
 };
