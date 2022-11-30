@@ -175,6 +175,19 @@ def add_content():
 def addlink():
     category = request.form['content_category']
     link = request.form['content_link']
+    try:
+        content = database.Table("Content")
+        links = content.get_item(Key={"Module": category})
+        links = links['Item']['Links']
+        links.append(link)
+        content.put_item(
+            TableName='Content',
+            Item={
+            'Module': category,
+            'Links': links}
+            )
+    except:
+        print("Database error")
     return jsonify({'success': 'success'})
 
 # Helper function to get links for videos for a module
