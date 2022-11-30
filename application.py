@@ -331,8 +331,12 @@ def add_card():
     first_name = request.form['first_name']
     last_name = request.form['last_name']
     card_number = request.form['card_number']
+    card_number = str(card_number)
+    masked_card = "*" * (len(card_number) - 4) + card_number[-4:]
     expiration_date = request.form['card_expiration_date']
     card_cvc = request.form['card_cvc']
+    card_cvc = str(card_cvc)
+    masked_cvc = "*" * (len(card_cvc) - 1) + card_cvc[-1:]
 
     if (not school or not first_name or not last_name or not card_number):
         return render_template('billing.html', title='Billing')
@@ -345,9 +349,9 @@ def add_card():
             'School': school,
             'First Name': first_name,
             'Last Name': last_name,
-            'Card Number': card_number,
+            'Card Number': masked_card,
             'Expiration Date': expiration_date,
-            'CVC': card_cvc
+            'CVC': masked_cvc
         }
     )
     return jsonify({'success': 'success'})
@@ -357,8 +361,8 @@ def view_billing():
     billing_table = database.Table('Billing')
     response = billing_table.scan()
     items = response['Items']
+    print(items)
     return render_template('viewBilling.html', data=items)
-
 
 if __name__ == "__main__":
     app.run()
